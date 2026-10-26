@@ -5,6 +5,8 @@ import type { DocumentBoard, Insight } from '@ekklesiazous/shared'
 export class InsightHandle {
   private current: Insight
   private isReleasedFlag = false
+  /** Receives every state change (used to stream private insights to their requester). */
+  onChange: ((insight: Insight) => void) | null = null
 
   /**
    * @param board - Board to write to after release.
@@ -15,6 +17,18 @@ export class InsightHandle {
     initial: Insight,
   ) {
     this.current = initial
+  }
+
+  /**
+   * Wraps an insight that is already on the board (e.g. after a server restart).
+   *
+   * @param board - Board holding the insight.
+   * @param insight - The insight.
+   */
+  static adopt(board: DocumentBoard, insight: Insight): InsightHandle {
+    const handle = new InsightHandle(board, insight)
+    handle.isReleasedFlag = true
+    return handle
   }
 
   /** Current state (board copy wins once released, since participants may pin or vote). */
@@ -33,6 +47,11 @@ export class InsightHandle {
     return this.insight.status === 'dismissed'
   }
 
+  /** Whether the insight should no longer be delivered (dismissed, or failed before release). */
+  get isWithdrawn(): boolean {
+    return this.isDismissed || (!this.isReleasedFlag && this.insight.status === 'failed')
+  }
+
   /**
    * Updates fields, on the board too when released.
    *
@@ -41,6 +60,7 @@ export class InsightHandle {
   patch(patch: Partial<Insight>): void {
     this.current = { ...this.insight, ...patch, updatedAt: Date.now() }
     if (this.isReleasedFlag) this.board.patchInsight(this.current.id, patch)
+    this.onChange?.(this.current)
   }
 
   /** Publishes the insight to the board. */

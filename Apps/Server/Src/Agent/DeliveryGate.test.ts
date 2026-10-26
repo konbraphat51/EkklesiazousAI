@@ -52,6 +52,7 @@ describe('DeliveryGate', () => {
     const gate = new DeliveryGate(
       () => timing,
       (handle) => released.push(handle.insight.id),
+      undefined,
     )
     gate.submit(createHandle(board, 'a'), { isImmediate: false, minimumHoldMs: 0 })
     gate.notifyBreakpoint()
@@ -66,6 +67,24 @@ describe('DeliveryGate', () => {
     vi.advanceTimersByTime(8000)
     gate.notifyBreakpoint()
     expect(released).toEqual(['a', 'dissent'])
+    gate.dispose()
+  })
+
+  it('withholds proactive cards in shadow mode but shows explicit ones', () => {
+    const board = new DocumentBoard()
+    const released: string[] = []
+    const shadowed: string[] = []
+    const gate = new DeliveryGate(
+      () => 'shadow',
+      (handle) => released.push(handle.insight.id),
+      (handle) => shadowed.push(handle.insight.id),
+    )
+    gate.submit(createHandle(board, 'urgent', 0.95), { isImmediate: false, minimumHoldMs: 0 })
+    gate.submit(createHandle(board, 'asked'), { isImmediate: true, minimumHoldMs: 0 })
+    gate.notifyBreakpoint()
+    expect(released).toEqual(['asked'])
+    expect(shadowed).toEqual(['urgent'])
+    expect(board.getInsight('urgent')).toBeUndefined()
     gate.dispose()
   })
 })

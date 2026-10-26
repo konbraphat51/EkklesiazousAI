@@ -1,5 +1,5 @@
 // Holds proactive insights until a good moment: immediately, at the next conversational breakpoint,
-// or in a periodic digest (the `deliveryTiming` UX feature).
+// in a periodic digest, or never in shadow mode (the `deliveryTiming` UX feature).
 import type { UxOption } from '@ekklesiazous/shared'
 import type { InsightHandle } from './InsightHandle'
 
@@ -25,11 +25,13 @@ export class DeliveryGate {
   /**
    * @param readTiming - Reads the room's current delivery timing option.
    * @param onRelease - Called after a handle is released.
+   * @param onShadow - Called for proactive handles withheld by shadow mode.
    * @param now - Clock (injectable for tests).
    */
   constructor(
     private readonly readTiming: () => UxOption<'deliveryTiming'>,
     private readonly onRelease: (handle: InsightHandle) => void,
+    private readonly onShadow: (handle: InsightHandle) => void = () => undefined,
     private readonly now: () => number = Date.now,
   ) {
     this.lastDigestAt = now()
@@ -43,6 +45,10 @@ export class DeliveryGate {
    * @param options - Delivery options.
    */
   submit(handle: InsightHandle, options: DeliveryOptions): void {
+    if (this.readTiming() === 'shadow' && !options.isImmediate) {
+      this.onShadow(handle)
+      return
+    }
     const isUrgent = handle.insight.urgency >= URGENT_THRESHOLD
     const isNow =
       options.minimumHoldMs === 0 &&
@@ -75,6 +81,8 @@ export class DeliveryGate {
     const now = this.now()
     if (timing === 'immediate') {
       this.releaseWhere(() => true)
+    } else if (timing === 'shadow') {
+      return
     } else if (timing === 'breakpoint') {
       this.releaseWhere((heldAt) => now - heldAt >= BREAKPOINT_MAX_HOLD_MS)
     } else if (now - this.lastDigestAt >= DIGEST_INTERVAL_MS) {
@@ -88,7 +96,7 @@ export class DeliveryGate {
     for (let index = this.held.length - 1; index >= 0; index--) {
       const entry = this.held[index]!
       const isHoldServed = now - entry.heldAt >= entry.minimumHoldMs
-      if (entry.handle.isDismissed) {
+      if (entry.handle.isWithdrawn) {
         this.held.splice(index, 1)
       } else if (isForced || (isHoldServed && predicate(entry.heldAt))) {
         this.held.splice(index, 1)
