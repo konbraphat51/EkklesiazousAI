@@ -26,6 +26,8 @@ export interface IssueNode {
   speakerIds: string[]
   /** Whether the node was raised by the agent rather than a participant. */
   isRaisedByAgent: boolean
+  /** Whether a participant edited the node; the agent never changes such nodes again. */
+  isHumanEdited: boolean
   /** Creation time (epoch ms). */
   createdAt: number
   /** Last update time (epoch ms). */

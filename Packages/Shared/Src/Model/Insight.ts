@@ -32,6 +32,49 @@ export const INSIGHT_KINDS: readonly InsightKind[] = [
  */
 export type InsightOrigin = 'proactive' | 'command' | 'clarification' | 'proxyDissent'
 
+/**
+ * Conversational pattern that made the agent act (logged for research, shown as provenance).
+ *
+ * - `newIdea`: a proposal that may reinvent something existing.
+ * - `unfamiliarTerm`: a term, paper or case some participants may not know.
+ * - `claim`: a checkable factual statement or number.
+ * - `anchoring`: a single number or first proposal dominating the discussion.
+ * - `quickAgreement`: convergence without alternatives or risks (groupthink signal).
+ * - `authorityAppeal`: reliance on authority instead of evidence.
+ * - `untestedAssumption`: a plan resting on an unverified assumption.
+ * - `deferredQuestion`: an open question parked for later ("let's check later").
+ * - `explicitRequest`: a participant addressed the agent.
+ * - `confusion`: several participants privately asked for clarification.
+ * - `dissent`: a participant's anonymous concern.
+ */
+export type TriggerPattern =
+  | 'newIdea'
+  | 'unfamiliarTerm'
+  | 'claim'
+  | 'anchoring'
+  | 'quickAgreement'
+  | 'authorityAppeal'
+  | 'untestedAssumption'
+  | 'deferredQuestion'
+  | 'explicitRequest'
+  | 'confusion'
+  | 'dissent'
+
+/** Every trigger pattern. */
+export const TRIGGER_PATTERNS: readonly TriggerPattern[] = [
+  'newIdea',
+  'unfamiliarTerm',
+  'claim',
+  'anchoring',
+  'quickAgreement',
+  'authorityAppeal',
+  'untestedAssumption',
+  'deferredQuestion',
+  'explicitRequest',
+  'confusion',
+  'dissent',
+]
+
 /** Lifecycle of an insight's gist; the card is shown from `researching` onward. */
 export type InsightStatus = 'researching' | 'writing' | 'ready' | 'failed' | 'dismissed'
 
@@ -95,6 +138,10 @@ export interface Insight {
   status: InsightStatus
   /** Topic the insight belongs to. */
   topicId: string | null
+  /** Issue-map node the insight supports or challenges, if any. */
+  issueNodeId: string | null
+  /** Conversational pattern that triggered the insight. */
+  triggerPattern: TriggerPattern
   /** Short headline (shown immediately, before research finishes). */
   title: string
   /** One plain sentence: the default, glanceable presentation. */

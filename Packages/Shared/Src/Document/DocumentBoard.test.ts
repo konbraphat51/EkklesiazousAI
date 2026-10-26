@@ -10,6 +10,8 @@ function createInsight(id: string): Insight {
     kind: 'priorArt',
     status: 'researching',
     topicId: null,
+    issueNodeId: null,
+    triggerPattern: 'newIdea',
     title: 'Title',
     gist: '',
     detailStatus: 'none',

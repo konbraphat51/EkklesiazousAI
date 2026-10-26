@@ -45,6 +45,16 @@ export interface MeetingMeta {
   researchDepthDefault: ResearchDepth
   /** Phrases that address the agent by voice, e.g. "Hey Ekklesia" or 「エクレシア」. */
   wakeWords: string[]
+  /** Insight currently promoted to the shared spotlight frame, if any. */
+  spotlightInsightId: string | null
+  /** When the spotlight was set (epoch ms). */
+  spotlightAt: number | null
+  /** Rolling "meeting so far" summary written by the agent. */
+  summary: string
+  /** When the summary was last updated (epoch ms). */
+  summaryUpdatedAt: number | null
+  /** Zoom meeting id whose RTMS audio feeds this room (empty when unused). */
+  zoomMeetingId: string
   /**
    * Whether a moment privately flagged by several participants is promoted to an anonymous public
    * catch-up insight.

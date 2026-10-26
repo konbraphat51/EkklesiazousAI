@@ -66,6 +66,11 @@ export function createMeetingMetaDefault(now: number): MeetingMeta {
     proactivity: 'medium',
     researchDepthDefault: 'quick',
     wakeWords: ['ekklesia', 'エクレシア', 'hey ai', 'ねえai'],
+    spotlightInsightId: null,
+    spotlightAt: null,
+    summary: '',
+    summaryUpdatedAt: null,
+    zoomMeetingId: '',
     isClarificationPromotionEnabled: true,
   }
 }
