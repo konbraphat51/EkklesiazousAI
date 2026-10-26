@@ -35,7 +35,7 @@ pnpm dev
 
 http://localhost:5173 を開き **Start demo meeting** (デモ会議を開始) を押すと、日英混在のスクリプト会議がモック AI で動きます。キーは不要です。
 
-実際の会議で使うには、`.env` に少なくとも `SONIOX_API_KEY` (音声認識) と `ANTHROPIC_API_KEY` (AI) を設定してください。検索キー (`PARALLEL_API_KEY`、`EXA_API_KEY`) を加えると結果が良くなります。詳しくは [Docs/Providers.ja.md](Docs/Providers.ja.md) を参照してください。
+実際の会議で使うには、`.env` に少なくとも `SONIOX_API_KEY` (音声認識) と `OPENAI_API_KEY` (AI。`ANTHROPIC_API_KEY` でも可) を設定してください。検索キー (`PARALLEL_API_KEY`、`EXA_API_KEY`) を加えると結果が良くなります。詳しくは [Docs/Providers.ja.md](Docs/Providers.ja.md) を参照してください。
 
 ## 2 回目以降の起動
 

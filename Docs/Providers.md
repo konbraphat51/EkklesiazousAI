@@ -2,7 +2,7 @@
 
 [日本語](Providers.ja.md)
 
-All keys go in `.env` at the repository root (see `.env.example`) and stay on the server. The server picks providers at start-up; `GET /api/config` and the lobby footer show what is active. Without an Anthropic key, the server runs in **mock mode**: a scripted responder replaces the language models and demo sources replace search, so the whole pipeline (routing, admission, delivery, layers, issue map, clarifications) still runs.
+All keys go in `.env` at the repository root (see `.env.example`) and stay on the server. The server picks providers at start-up; `GET /api/config` and the lobby footer show what is active. Without an OpenAI or Anthropic key, the server runs in **mock mode**: a scripted responder replaces the language models and demo sources replace search, so the whole pipeline (routing, admission, delivery, layers, issue map, clarifications) still runs.
 
 ## Speech recognition
 
@@ -19,21 +19,21 @@ No independent benchmark of Japanese character error rate exists for these servi
 
 ## Language models
 
-| Role   | Default                                                                                                                                                    | Settings                                                                     | Used for                                                                                           |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Router | Cerebras `gpt-oss-120b` (or Groq `openai/gpt-oss-20b`), **hedged** with Claude Haiku 5.5 after 450 ms; Claude Haiku 5.5 alone when no fast host key is set | Strict JSON schema, low reasoning effort                                     | Deciding from live speech what to research (trigger detection), and interpreting explicit commands |
-| Writer | `claude-haiku-5-5`                                                                                                                                         | Structured outputs, streaming, thinking off, effort `low`                    | Gists, details, private clarifications and recaps, rewriting anonymous concerns                    |
-| Deep   | `claude-opus-5-5`                                                                                                                                          | Structured outputs, streaming, effort `medium`, server-side refusal fallback | Issue map and rolling summary, deep-research planning and writing                                  |
+| Role   | Default                                                                                                                                                    | Settings                                                                                                                 | Used for                                                                                           |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| Router | Cerebras `gpt-oss-120b` (or Groq `openai/gpt-oss-20b`), **hedged** with the writer model after 450 ms; the writer model alone when no fast host key is set | Strict JSON schema, low reasoning effort                                                                                 | Deciding from live speech what to research (trigger detection), and interpreting explicit commands |
+| Writer | **OpenAI `gpt-6-luna`** (default) or `claude-haiku-5-5`                                                                                                    | Structured outputs, streaming; reasoning `none` (OpenAI) or thinking off and effort `low` (Claude)                       | Gists, details, private clarifications and recaps, rewriting anonymous concerns                    |
+| Deep   | **OpenAI `gpt-6.1-sol`** (default) or `claude-opus-5-5`                                                                                                    | Structured outputs, streaming; reasoning `medium` (OpenAI) or effort `medium` with server-side refusal fallback (Claude) | Issue map and rolling summary, deep-research planning and writing                                  |
 
 Latency techniques:
 
-- **Hedged router:** the fastest host answers; if it is slow or fails, Claude takes over. The Japanese accuracy of gpt-oss on meeting speech is unverified, which is the other reason for the hedge.
+- **Hedged router:** the fastest host answers; if it is slow or fails, the writer model takes over. The Japanese accuracy of gpt-oss on meeting speech is unverified, which is the other reason for the hedge.
 - **Speculative routing:** interim speech is analyzed once it has grown by 30 characters, so cards often appear before the speaker finishes.
 - **Streaming partial JSON:** gist text appears word by word.
 - **Prompt caching:** system prompts are byte-stable, and the transcript is rendered as fixed chunks of 20 utterances, with a cache breakpoint on the last complete chunk, so repeated calls reuse the cached prefix.
 - **Priorities:** explicit requests overtake proactive research; hover prefetches run only when a slot is free.
 
-Change models with `MODEL_WRITER` and `MODEL_DEEP`, and the router with `ROUTER_PROVIDER` (`auto`, `anthropic`, `cerebras`, `groq`) and `ROUTER_HEDGE`.
+OpenAI is the default: with `LLM_PROVIDER=auto`, OpenAI is used when `OPENAI_API_KEY` is set, otherwise Anthropic. OpenAI is called through the Responses API with strict structured outputs and streaming; it caches prompt prefixes automatically, and the stable-first prompt order is kept for that. Change models with `MODEL_WRITER` and `MODEL_DEEP` (empty = provider default), OpenAI reasoning with `OPENAI_REASONING_WRITER` / `OPENAI_REASONING_DEEP`, and the router with `ROUTER_PROVIDER` (`auto`, `writer`, `cerebras`, `groq`) and `ROUTER_HEDGE`. The `gpt-6.1-sol` id comes from OpenAI's model page (a third-party source says `gpt-6-sol`); set `MODEL_DEEP` if your account lists a different id.
 
 ## Search
 

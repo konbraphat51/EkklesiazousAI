@@ -35,7 +35,7 @@ pnpm dev
 
 Open http://localhost:5173 and click **Start demo meeting** — a scripted bilingual meeting runs with mock AI, no keys needed.
 
-For live meetings add at least `SONIOX_API_KEY` (speech) and `ANTHROPIC_API_KEY` (AI) to `.env`; search keys (`PARALLEL_API_KEY`, `EXA_API_KEY`) improve results. See [Docs/Providers.md](Docs/Providers.md).
+For live meetings add at least `SONIOX_API_KEY` (speech) and `OPENAI_API_KEY` (AI; `ANTHROPIC_API_KEY` also works) to `.env`; search keys (`PARALLEL_API_KEY`, `EXA_API_KEY`) improve results. See [Docs/Providers.md](Docs/Providers.md).
 
 ## Running again
 

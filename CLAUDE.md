@@ -129,6 +129,7 @@ export default {
 - Naming follows "general → specific" (`SearchProviderExa`, `LayoutTimeline`, `CardInsight.vue`) — the Vue style-guide reading of the postpositive rule. Directories and source files are UpperCamelCase; tool configs keep their conventional names (`vite.config.ts`, `package.json`).
 - Vue SFCs use `<script lang="ts">` + `defineComponent({ name, props, emits, setup })`.
 - All LLM outputs are zod schemas with only required fields (strict-JSON hosts reject optional/`oneOf`); use `''`/`[]` for "absent".
+- LLM default is OpenAI (`LanguageModelOpenAi`, Responses API, raw fetch + SSE); Anthropic is the alternative. Keep both implementations working.
 - Every `LanguageModel.generate` call passes a `task` and `hints`; the mock model (`DemoResponder`) answers from hints, so keep hints meaningful when adding tasks.
 - Private results (clarifications, private commands) must never be written to the board; they are streamed as NDJSON to the requester only.
 - UI text: English default + Japanese in `Apps/Client/Src/Locales/{En,Ja}.json` (no `|` or `@` in messages — vue-i18n syntax).

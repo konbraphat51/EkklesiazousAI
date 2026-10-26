@@ -34,7 +34,7 @@ flowchart LR
     Api["REST API"]
   end
   subgraph Cloud["AI and search services"]
-    Llm["Language models<br/>(Claude, Cerebras/Groq)"]
+    Llm["Language models<br/>(OpenAI or Claude, Cerebras/Groq)"]
     Search["Search<br/>(Parallel, Exa, OpenAlex,<br/>Semantic Scholar, Wikipedia)"]
   end
   Capture -- "binary PCM over WebSocket" --> AudioGw --> Ingest
@@ -78,6 +78,7 @@ classDiagram
     +modelId
     +generate(request) T
   }
+  LanguageModel <|.. LanguageModelOpenAi
   LanguageModel <|.. LanguageModelAnthropic
   LanguageModel <|.. LanguageModelOpenAiCompatible
   LanguageModel <|.. LanguageModelHedged
@@ -203,13 +204,13 @@ sequenceDiagram
 
 Latency budget (quick tier, measured from the end of the utterance):
 
-| Step                                                                   | Target    |
-| ---------------------------------------------------------------------- | --------- |
-| Router decision (Cerebras/Groq, hedged with Claude Haiku after 450 ms) | 0.3–0.7 s |
-| Placeholder card on every screen (Yjs sync)                            | < 1 s     |
-| Quick search (race)                                                    | 0.2–1.8 s |
-| First gist words (streaming)                                           | 1.1–2.5 s |
-| Gist complete                                                          | 1.5–3 s   |
+| Step                                                                       | Target    |
+| -------------------------------------------------------------------------- | --------- |
+| Router decision (Cerebras/Groq, hedged with the writer model after 450 ms) | 0.3–0.7 s |
+| Placeholder card on every screen (Yjs sync)                                | < 1 s     |
+| Quick search (race)                                                        | 0.2–1.8 s |
+| First gist words (streaming)                                               | 1.1–2.5 s |
+| Gist complete                                                              | 1.5–3 s   |
 
 Speculative routing on interim speech often creates the card before the speaker has finished. Every card records `utteranceAt`, `triggeredAt`, `firstContentAt`, `readyAt`, `releasedAt` and the layer request and ready times. The card shows "appeared N s after the remark", and the event log keeps everything for analysis.
 

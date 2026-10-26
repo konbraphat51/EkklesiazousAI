@@ -34,7 +34,7 @@ flowchart LR
     Api["REST API"]
   end
   subgraph Cloud["AI・検索サービス"]
-    Llm["言語モデル<br/>(Claude、Cerebras/Groq)"]
+    Llm["言語モデル<br/>(OpenAI または Claude、Cerebras/Groq)"]
     Search["検索<br/>(Parallel、Exa、OpenAlex、<br/>Semantic Scholar、Wikipedia)"]
   end
   Capture -- "WebSocket でバイナリ PCM" --> AudioGw --> Ingest
@@ -78,6 +78,7 @@ classDiagram
     +modelId
     +generate(request) T
   }
+  LanguageModel <|.. LanguageModelOpenAi
   LanguageModel <|.. LanguageModelAnthropic
   LanguageModel <|.. LanguageModelOpenAiCompatible
   LanguageModel <|.. LanguageModelHedged
@@ -203,13 +204,13 @@ sequenceDiagram
 
 遅延の目安 (「さっと」、発言終了から):
 
-| 段階                                                                  | 目標        |
-| --------------------------------------------------------------------- | ----------- |
-| ルーターの判断 (Cerebras/Groq。450 ms で Claude Haiku に保険をかける) | 0.3〜0.7 秒 |
-| 仮カードが全員の画面に出る (Yjs 同期)                                 | 1 秒未満    |
-| 「さっと」検索 (競争)                                                 | 0.2〜1.8 秒 |
-| 一言の最初の語 (ストリーミング)                                       | 1.1〜2.5 秒 |
-| 一言の完成                                                            | 1.5〜3 秒   |
+| 段階                                                              | 目標        |
+| ----------------------------------------------------------------- | ----------- |
+| ルーターの判断 (Cerebras/Groq。450 ms で執筆モデルに保険をかける) | 0.3〜0.7 秒 |
+| 仮カードが全員の画面に出る (Yjs 同期)                             | 1 秒未満    |
+| 「さっと」検索 (競争)                                             | 0.2〜1.8 秒 |
+| 一言の最初の語 (ストリーミング)                                   | 1.1〜2.5 秒 |
+| 一言の完成                                                        | 1.5〜3 秒   |
 
 話し途中の投機的ルーティングにより、話者が言い終わる前にカードが出ることもよくあります。各カードは `utteranceAt`、`triggeredAt`、`firstContentAt`、`readyAt`、`releasedAt` と各層の依頼・完成時刻を記録します。カードには「発言から N 秒で提示」と表示され、イベントログにはすべてが残ります。
 
