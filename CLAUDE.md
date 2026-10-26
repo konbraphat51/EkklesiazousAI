@@ -118,3 +118,29 @@ export default {
 
 ## Claude Notes
 =Claude can freely edit below this line. Use this area to share project knowledge throught different chat sessions. Capture conventions, structure, commands, and gotchas so that agents joining later stay consistent with existing decisions.=
+
+### Structure
+- pnpm monorepo: `Apps/Server` (Node, run with `tsx`, no emit), `Apps/Client` (Vue 3 + Vite + Vue Flow), `Packages/Shared` (consumed as TS source via `exports: ./Src/Index.ts`).
+- The shared Yjs document (`DocumentBoard` in Shared) is the single source of truth. Server-side code edits the same in-memory `Y.Doc` that browsers sync with (`Apps/Server/Src/Sync/SyncHub.ts`, a hand-written y-websocket server; `@y/websocket-server` needs a yjs 14 pre-release, so it is not used).
+- Agent pipeline: `ConversationPulse` → `TriggerLoop` (router) → `InsightPolicy` → `DeliveryGate` → `InsightResearcher` (gist/detail/deep) — composed in `AgentRoom`. Prompts live in `Apps/Server/Src/Agent/Prompts`, output schemas in `AgentSchemas.ts`.
+- Every UX presentation choice is a feature in `Packages/Shared/Src/Experiment/UxFeatures.ts` (first option = default). Adding one: register it there, add i18n keys `uxFeature.<id>.{name,options,hint}` in both locales, read it via `session.ux` (client) or `meta.uxSettings` (server), document it in `Docs/UxHypotheses*.md`.
+
+### Conventions
+- Naming follows "general → specific" (`SearchProviderExa`, `LayoutTimeline`, `CardInsight.vue`) — the Vue style-guide reading of the postpositive rule. Directories and source files are UpperCamelCase; tool configs keep their conventional names (`vite.config.ts`, `package.json`).
+- Vue SFCs use `<script lang="ts">` + `defineComponent({ name, props, emits, setup })`.
+- All LLM outputs are zod schemas with only required fields (strict-JSON hosts reject optional/`oneOf`); use `''`/`[]` for "absent".
+- Every `LanguageModel.generate` call passes a `task` and `hints`; the mock model (`DemoResponder`) answers from hints, so keep hints meaningful when adding tasks.
+- Private results (clarifications, private commands) must never be written to the board; they are streamed as NDJSON to the requester only.
+- UI text: English default + Japanese in `Apps/Client/Src/Locales/{En,Ja}.json` (no `|` or `@` in messages — vue-i18n syntax).
+
+### Commands
+- `pnpm dev` (server :8787 + client :5173), `pnpm demo` (forces mock), `pnpm test`, `pnpm typecheck`, `pnpm lint`, `pnpm build`, `pnpm start`.
+- Server alone in mock mode on another port: `cd Apps/Server && PORT=8899 npx tsx Src/Main.ts --mock`; client against it: `EKKLESIAZOUS_SERVER=http://localhost:8899 npx vite --port 5199`.
+
+### Gotchas
+- Prettier reformats long lines; scripted search-and-replace edits must match the formatted text (re-read before editing).
+- Vitest swallows `console.log` in tests; write probe output to a file when debugging.
+- When driving the UI with Playwright, issue waits and screenshots in separate turns — batched tool calls run concurrently and capture stale frames.
+- Proactive cards are rate-limited per minute (`RATE_LIMITS_DEFAULT`); fast-forwarded demos/tests must lift the limits (`AgentRoomOptions`).
+- `inject()` does not see a `provide()` from the same component: pass the session explicitly there (`useClarification(session)`).
+- Commit with explicit paths, not `git add -A`: research agents may be writing `ResearchNotes/` concurrently, and notes need the `resn:` prefix.
