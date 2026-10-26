@@ -26,10 +26,15 @@ const environmentSchema = z.object({
   ASSEMBLYAI_API_KEY: optionalSecret,
   ASSEMBLYAI_MODEL: z.string().default('universal-3-6-pro'),
 
+  LLM_PROVIDER: z.enum(['auto', 'openai', 'anthropic']).default('auto'),
+  OPENAI_API_KEY: optionalSecret,
+  OPENAI_REASONING_WRITER: z.enum(['none', 'minimal', 'low', 'medium', 'high']).default('none'),
+  OPENAI_REASONING_DEEP: z.enum(['none', 'minimal', 'low', 'medium', 'high']).default('medium'),
   ANTHROPIC_API_KEY: optionalSecret,
-  MODEL_WRITER: z.string().default('claude-haiku-5-5'),
-  MODEL_DEEP: z.string().default('claude-opus-5-5'),
-  ROUTER_PROVIDER: z.enum(['auto', 'anthropic', 'cerebras', 'groq']).default('auto'),
+  // empty means the provider's default (OpenAI: gpt-6-luna / gpt-6.1-sol, Anthropic: Haiku / Opus)
+  MODEL_WRITER: optionalSecret,
+  MODEL_DEEP: optionalSecret,
+  ROUTER_PROVIDER: z.enum(['auto', 'writer', 'cerebras', 'groq']).default('auto'),
   ROUTER_HEDGE: booleanFlag,
   CEREBRAS_API_KEY: optionalSecret,
   CEREBRAS_MODEL: z.string().default('gpt-oss-120b'),

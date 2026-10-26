@@ -9,6 +9,7 @@ import type { LanguageModel } from '../Llm/LanguageModel'
 import { LanguageModelAnthropic } from '../Llm/LanguageModelAnthropic'
 import { LanguageModelHedged } from '../Llm/LanguageModelHedged'
 import { LanguageModelMock } from '../Llm/LanguageModelMock'
+import { LanguageModelOpenAi } from '../Llm/LanguageModelOpenAi'
 import { LanguageModelOpenAiCompatible } from '../Llm/LanguageModelOpenAiCompatible'
 import { SearchProviderExa } from '../Search/SearchProviderExa'
 import { SearchProviderOpenAlex } from '../Search/SearchProviderOpenAlex'
@@ -40,13 +41,17 @@ export interface ProviderSet {
  * @throws Error when MOCK_MODE is `off` but no language model key is configured.
  */
 export function createProviders(config: ConfigServer, log: AgentLogger): ProviderSet {
-  const hasLanguageModel = Boolean(config.ANTHROPIC_API_KEY)
-  const isMock = config.isMockForced || (config.MOCK_MODE === 'auto' && !hasLanguageModel)
-  if (!isMock && !hasLanguageModel) {
-    throw new Error('MOCK_MODE=off requires ANTHROPIC_API_KEY')
+  const provider = selectLanguageModelProvider(config)
+  const isMock = config.isMockForced || (config.MOCK_MODE === 'auto' && provider === null)
+  if (!isMock && provider === null) {
+    throw new Error('MOCK_MODE=off requires OPENAI_API_KEY or ANTHROPIC_API_KEY')
   }
 
-  const models = isMock ? createMockModels() : createModels(config)
+  const models = isMock
+    ? createMockModels()
+    : provider === 'openai'
+      ? createModelsOpenAi(config)
+      : createModelsAnthropic(config)
   const search = isMock
     ? { web: [new SearchProviderDemo()], papers: [], encyclopedia: null }
     : createSearch(config)
@@ -79,28 +84,50 @@ function createMockModels(): AgentToolkit['models'] {
   return { router: model, writer: model, deep: model }
 }
 
-function createModels(config: ConfigServer): AgentToolkit['models'] {
+// OpenAI is the default when its key is present
+function selectLanguageModelProvider(config: ConfigServer): 'openai' | 'anthropic' | null {
+  if (config.LLM_PROVIDER === 'openai') return config.OPENAI_API_KEY ? 'openai' : null
+  if (config.LLM_PROVIDER === 'anthropic') return config.ANTHROPIC_API_KEY ? 'anthropic' : null
+  if (config.OPENAI_API_KEY) return 'openai'
+  if (config.ANTHROPIC_API_KEY) return 'anthropic'
+  return null
+}
+
+function createModelsOpenAi(config: ConfigServer): AgentToolkit['models'] {
+  const apiKey = config.OPENAI_API_KEY ?? ''
+  const writer = new LanguageModelOpenAi({
+    apiKey,
+    modelId: config.MODEL_WRITER ?? 'gpt-6-luna',
+    reasoningEffort: config.OPENAI_REASONING_WRITER,
+  })
+  const deep = new LanguageModelOpenAi({
+    apiKey,
+    modelId: config.MODEL_DEEP ?? 'gpt-6.1-sol',
+    reasoningEffort: config.OPENAI_REASONING_DEEP,
+  })
+  return { router: createRouter(config, writer), writer, deep }
+}
+
+function createModelsAnthropic(config: ConfigServer): AgentToolkit['models'] {
   const client = new Anthropic({ apiKey: config.ANTHROPIC_API_KEY ?? undefined })
   const writer = new LanguageModelAnthropic(client, {
-    modelId: config.MODEL_WRITER,
+    modelId: config.MODEL_WRITER ?? 'claude-haiku-5-5',
     effort: 'low',
     isThinkingWanted: false,
   })
   const deep = new LanguageModelAnthropic(client, {
-    modelId: config.MODEL_DEEP,
+    modelId: config.MODEL_DEEP ?? 'claude-opus-5-5',
     effort: 'medium',
     isThinkingWanted: true,
   })
   return { router: createRouter(config, writer), writer, deep }
 }
 
-// the router is the latency bottleneck: prefer a wafer-scale/LPU host, hedge with Claude Haiku
-function createRouter(config: ConfigServer, claudeFast: LanguageModel): LanguageModel {
+// the router is the latency bottleneck: prefer a wafer-scale/LPU host, hedged with the writer model
+function createRouter(config: ConfigServer, writer: LanguageModel): LanguageModel {
   const fastHost = selectFastHost(config)
-  if (!fastHost) return claudeFast
-  return config.ROUTER_HEDGE
-    ? new LanguageModelHedged(fastHost, claudeFast, HEDGE_DELAY_MS)
-    : fastHost
+  if (!fastHost) return writer
+  return config.ROUTER_HEDGE ? new LanguageModelHedged(fastHost, writer, HEDGE_DELAY_MS) : fastHost
 }
 
 function selectFastHost(config: ConfigServer): LanguageModel | null {
