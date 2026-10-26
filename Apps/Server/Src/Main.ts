@@ -13,6 +13,7 @@ import { RoomRuntime } from './Rooms/RoomRuntime'
 import { RoomStore } from './Rooms/RoomStore'
 import { SyncHub } from './Sync/SyncHub'
 import { ZoomRtmsGateway } from './Zoom/ZoomRtmsGateway'
+import { MeetingBotGateway } from './Bots/MeetingBotGateway'
 
 const serverDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -58,11 +59,25 @@ async function main(): Promise<void> {
         )
       : null
 
+  const botGateway = config.RECALL_API_KEY
+    ? new MeetingBotGateway(
+        {
+          apiKey: config.RECALL_API_KEY,
+          apiBaseUrl: config.RECALL_API_BASE_URL,
+          publicBaseUrl: config.PUBLIC_BASE_URL,
+          botName: config.MEETING_BOT_NAME,
+        },
+        ingest,
+        logger,
+      )
+    : null
+
   const app = await createServerHttp({
     registry,
     syncHub,
     audioGateway: new AudioGateway(ingest, logger),
     zoomGateway,
+    botGateway,
     capabilities: providers.capabilities,
     clientDistDirectory: config.clientDistDirectoryAbsolute,
   })

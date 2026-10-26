@@ -49,6 +49,10 @@ const environmentSchema = z.object({
   ZOOM_CLIENT_ID: optionalSecret,
   ZOOM_CLIENT_SECRET: optionalSecret,
   ZOOM_WEBHOOK_SECRET_TOKEN: optionalSecret,
+
+  RECALL_API_KEY: optionalSecret,
+  RECALL_API_BASE_URL: z.string().default('https://us-east-1.recall.ai/api/v1'),
+  MEETING_BOT_NAME: z.string().default('EkklesiazousAI'),
 })
 
 /** Validated server configuration. */

@@ -69,6 +69,7 @@ export function createProviders(config: ConfigServer, log: AgentLogger): Provide
       isZoomRtmsEnabled: Boolean(
         config.ZOOM_CLIENT_ID && config.ZOOM_CLIENT_SECRET && config.ZOOM_WEBHOOK_SECRET_TOKEN,
       ),
+      isMeetingBotEnabled: Boolean(config.RECALL_API_KEY),
     },
   }
 }
