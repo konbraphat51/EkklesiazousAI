@@ -18,8 +18,25 @@ export interface PromptLayered {
   instruction: string
 }
 
+/** Purpose of a generation call (for logs, latency metrics and the mock model). */
+export type LanguageModelTask =
+  | 'trigger'
+  | 'command'
+  | 'gist'
+  | 'detail'
+  | 'deepPlan'
+  | 'deep'
+  | 'issueMap'
+  | 'clarification'
+  | 'recap'
+  | 'dissent'
+
 /** One structured generation call. */
 export interface GenerationRequest<T> {
+  /** Purpose of the call. */
+  task: LanguageModelTask
+  /** Structured facts about the call (logged, and used by the mock model to answer). */
+  hints: Record<string, string>
   /** The prompt. */
   prompt: PromptLayered
   /** Output schema; the result is validated against it. */
