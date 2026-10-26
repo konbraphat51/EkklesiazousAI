@@ -4,7 +4,7 @@ import type { DocumentBoard } from '@ekklesiazous/shared'
 import { DEMO_LINES, DEMO_SPEAKERS, type DemoLine } from './DemoScript'
 
 const SOURCE_ID = 'demo'
-const GAP_BETWEEN_LINES_MS = 900
+const GAP_BETWEEN_LINES_MS = 1500
 const FINALIZE_DELAY_MS = 300
 const ENGLISH_WORD_MS = 330
 const JAPANESE_CHARACTER_MS = 120

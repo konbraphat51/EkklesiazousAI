@@ -16,7 +16,7 @@ export const RATE_LIMITS_DEFAULT: Record<Proactivity, number> = {
   off: 0,
   low: 2,
   medium: 3,
-  high: 5,
+  high: 6,
 }
 // important items are never dropped by the rate cap; it only thins out nice-to-know cards
 const RATE_EXEMPT_URGENCY = 0.8

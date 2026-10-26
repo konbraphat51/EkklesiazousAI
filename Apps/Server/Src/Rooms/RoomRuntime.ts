@@ -28,7 +28,8 @@ export class RoomRuntime implements RoomMeeting {
 
   /** Starts the scripted demo meeting and lets the agent listen. */
   startDemo(): void {
-    this.board.patchMeta({ captureMode: 'demo' }, 'system')
+    // the scripted meeting is denser than real talk, so the agent may volunteer more
+    this.board.patchMeta({ captureMode: 'demo', proactivity: 'high' }, 'system')
     this.agent.setAgentState('listening')
     void this.demo.play()
   }

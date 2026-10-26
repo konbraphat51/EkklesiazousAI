@@ -50,6 +50,17 @@ export interface DemoIssueNode {
   speakers: Array<'A' | 'B' | 'C'>
 }
 
+/** Issue-map node each scripted insight informs, by insight title. */
+export const DEMO_INSIGHT_LINKS: Readonly<Record<string, string>> = {
+  'Existing tools already transcribe meetings live': 'i1',
+  '用語: 話者ダイアライゼーション': 'i2',
+  Whisperは標準でストリーミング対応か: 'i3',
+  全員一致の前に確認したい点: 'i3',
+  リアルタイム音声認識の1時間あたり費用: 'q3',
+  'Prior research on automatic meeting summarization': 'q1',
+  'Is consent really unnecessary?': 'q4',
+}
+
 /** Display names of the demo speakers. */
 export const DEMO_SPEAKERS = { A: 'Aiko', B: 'Ben', C: 'Chen' } as const
 
@@ -372,8 +383,8 @@ export const DEMO_LINES: readonly DemoLine[] = [
           query: 'hidden profile paradigm group decision making',
           queryAlternate: '隠れたプロファイル 集団意思決定',
           term: 'hidden profile',
-          urgency: 0.62,
-          reason: '参照された研究概念の補足',
+          urgency: 0.82,
+          reason: '話者自身が用語を思い出せていない',
           depth: 'default',
         },
         gist: '各自だけが持つ情報が議論で共有されず、全員が知る情報ばかりが話される現象を調べる実験課題です。',
