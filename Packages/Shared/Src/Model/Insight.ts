@@ -124,6 +124,16 @@ export interface InsightTimings {
   firstContentAt: number | null
   /** When the gist was complete. */
   readyAt: number | null
+  /** When the card became visible to participants (after delivery timing). */
+  releasedAt: number | null
+  /** When the detail layer was first requested. */
+  detailRequestedAt: number | null
+  /** When the detail layer was complete. */
+  detailReadyAt: number | null
+  /** When the deep layer was first requested. */
+  deepRequestedAt: number | null
+  /** When the deep layer was complete. */
+  deepReadyAt: number | null
   /** Whether the trigger fired on interim (not yet final) speech. */
   isSpeculative: boolean
 }

@@ -32,7 +32,8 @@ function defineFeature<const Option extends string>(
  *   by participants, also `auto`matically by the agent for urgent items, or `off`.
  * - `disclosure`: `progressive` shows a one-line gist and expands on click; `full` shows all at once.
  * - `deliveryTiming`: proactive cards appear `immediate`ly, at the next conversational `breakpoint`
- *   (pause or speaker change), or batched into a periodic `digest`.
+ *   (pause or speaker change), batched into a periodic `digest`, or never (`shadow`: generated and
+ *   logged only, as a research baseline).
  * - `attentionCue`: how a new card announces itself — `pulse` glow, `toast`, `autoPan`, or `none`.
  * - `critiqueFraming`: devil's-advocate output as a Socratic `question`, a `statement`, or a
  *   stakeholder `persona` voice.
@@ -41,18 +42,20 @@ function defineFeature<const Option extends string>(
  *   `hidden` or `visible` to everyone.
  * - `speakingBalance`: a participation-equity meter is `hidden` or `visible`.
  * - `sourceDisplay`: sources are listed `inline` on expanded cards or only `onDemand`.
+ * - `requesterIdentity`: names of participants who issued commands are `shown` or `hidden`.
  */
 export const UX_FEATURES = {
   layout: defineFeature(['timeline', 'topicMap', 'issueMap', 'periphery'], 'participant'),
   spotlight: defineFeature(['manual', 'auto', 'off'], 'room'),
   disclosure: defineFeature(['progressive', 'full'], 'participant'),
-  deliveryTiming: defineFeature(['breakpoint', 'immediate', 'digest'], 'room'),
+  deliveryTiming: defineFeature(['breakpoint', 'immediate', 'digest', 'shadow'], 'room'),
   attentionCue: defineFeature(['pulse', 'toast', 'autoPan', 'none'], 'participant'),
   critiqueFraming: defineFeature(['question', 'statement', 'persona'], 'room'),
   cardAging: defineFeature(['fade', 'keep'], 'participant'),
   confusionMarks: defineFeature(['visible', 'hidden'], 'room'),
   speakingBalance: defineFeature(['hidden', 'visible'], 'room'),
   sourceDisplay: defineFeature(['inline', 'onDemand'], 'participant'),
+  requesterIdentity: defineFeature(['shown', 'hidden'], 'room'),
 } as const
 
 /** Identifier of a switchable feature. */
