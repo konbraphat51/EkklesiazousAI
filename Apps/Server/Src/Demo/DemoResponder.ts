@@ -2,7 +2,12 @@
 import type { LanguageModelTask } from '../Llm/LanguageModel'
 import type { MockResponder } from '../Llm/LanguageModelMock'
 import type { SearchHit, SearchProvider, SearchQuery } from '../Search/SearchProvider'
-import { DEMO_ISSUE_NODES, DEMO_LINES, type DemoInsightContent } from './DemoScript'
+import {
+  DEMO_INSIGHT_LINKS,
+  DEMO_ISSUE_NODES,
+  DEMO_LINES,
+  type DemoInsightContent,
+} from './DemoScript'
 
 const DEMO_TOPIC_LABELS = ['文字起こし基盤', 'コストと根拠', '研究と倫理', '進め方']
 const JAPANESE = /[぀-ヿ㐀-鿿]/
@@ -28,7 +33,7 @@ export class DemoResponder implements MockResponder {
           ],
         }
       case 'issueMap':
-        return this.respondIssueMap(Number(hints.segmentCount ?? '0'))
+        return this.respondIssueMap(Number(hints.segmentCount ?? '0'), hints.insights ?? '[]')
       case 'clarification':
       case 'recap':
         return this.respondClarification(task, hints)
@@ -120,7 +125,7 @@ export class DemoResponder implements MockResponder {
     }
   }
 
-  private respondIssueMap(segmentCount: number): unknown {
+  private respondIssueMap(segmentCount: number, insightsJson: string): unknown {
     const nodes = DEMO_ISSUE_NODES.filter((node) => node.appearsAfter < segmentCount)
     const summaries = [
       '研究室の会議を自動記録するツールの作り方を議論中。自作案が出ている。',
@@ -140,7 +145,14 @@ export class DemoResponder implements MockResponder {
         topicId: 't1',
         speakerIds: node.speakers.map((speaker) => `demo:${speaker}`),
       })),
-      insightLinks: [],
+      insightLinks: (JSON.parse(insightsJson) as Array<{ id: string; title: string }>).flatMap(
+        (insight) => {
+          const nodeId = DEMO_INSIGHT_LINKS[insight.title]
+          return nodeId && nodes.some((node) => node.id === nodeId)
+            ? [{ insightId: insight.id, nodeId }]
+            : []
+        },
+      ),
       critiqueTargets: [],
     }
   }

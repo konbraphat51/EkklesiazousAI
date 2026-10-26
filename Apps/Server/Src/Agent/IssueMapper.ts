@@ -67,7 +67,12 @@ export class IssueMapper {
       const transcript = this.context.renderTranscript()
       const output = await this.model.generate<IssueMapOutput>({
         task: 'issueMap',
-        hints: { segmentCount: String(segmentCount) },
+        hints: {
+          segmentCount: String(segmentCount),
+          insights: JSON.stringify(
+            this.board.listInsights().map((insight) => ({ id: insight.id, title: insight.title })),
+          ),
+        },
         prompt: {
           system: PROMPT_ISSUE_MAP_SYSTEM,
           contextBlocks: [...transcript.blocks, this.context.renderState()],
