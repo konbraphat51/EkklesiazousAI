@@ -22,6 +22,16 @@ export const INSIGHT_KINDS: readonly InsightKind[] = [
   'answer',
 ]
 
+/**
+ * Why an insight exists.
+ *
+ * - `proactive`: the agent volunteered it from the conversation.
+ * - `command`: a participant asked for it (typed or by voice).
+ * - `clarification`: promoted from private clarification requests (anonymous).
+ * - `proxyDissent`: a participant's anonymous concern, voiced by the agent as its own critique.
+ */
+export type InsightOrigin = 'proactive' | 'command' | 'clarification' | 'proxyDissent'
+
 /** Lifecycle of an insight's gist; the card is shown from `researching` onward. */
 export type InsightStatus = 'researching' | 'writing' | 'ready' | 'failed' | 'dismissed'
 
@@ -111,6 +121,8 @@ export interface Insight {
   language: LanguageInsight
   /** Search query used for research. */
   query: string
+  /** Why the insight exists. */
+  origin: InsightOrigin
   /** Research intensity spent on this insight. */
   depth: ResearchDepth
   /** Short progress note while researching (e.g. "Reading 8 sources"); empty when idle. */

@@ -2,7 +2,7 @@
 import type { InsightKind } from './Insight'
 import type { LanguageInsightPreference } from './Language'
 import type { Proactivity, ResearchDepth } from './Research'
-import type { VariantId } from '../Presentation/VariantId'
+import type { UxSettings } from '../Experiment/UxFeatures'
 
 /**
  * How meeting audio reaches the server.
@@ -31,8 +31,10 @@ export interface MeetingMeta {
   captureMode: CaptureMode
   /** Language preference for insights. */
   languageInsight: LanguageInsightPreference
-  /** Presentation variant shown to participants who have not picked their own. */
-  variantDefault: VariantId
+  /** Room-wide UX feature options (defaults for participant-scoped features). */
+  uxSettings: UxSettings
+  /** When true, participants cannot override UX options (controlled experiments). */
+  isUxLocked: boolean
   /** Whether the agent is processing speech. */
   agentState: AgentState
   /** Insight kinds the agent may produce. */

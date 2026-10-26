@@ -23,6 +23,7 @@ function createInsight(id: string): Insight {
     confidence: 0.5,
     language: 'en',
     query: 'q',
+    origin: 'proactive',
     depth: 'quick',
     progressNote: '',
     requesterName: null,
@@ -49,7 +50,7 @@ describe('DocumentBoard', () => {
     board.patchMeta({ title: 'Kickoff', kindsEnabled: { critique: false } as never })
     const meta = board.readMeta()
     expect(meta.title).toBe('Kickoff')
-    expect(meta.variantDefault).toBe('timeline')
+    expect(meta.uxSettings.layout).toBe('timeline')
     expect(meta.kindsEnabled.critique).toBe(false)
     expect(meta.kindsEnabled.priorArt).toBe(true)
   })
@@ -82,7 +83,7 @@ describe('DocumentBoard', () => {
     expect(events[0]![1]).toBe('agent')
   })
 
-  it('scopes placements per variant', () => {
+  it('scopes placements per layout', () => {
     const board = new DocumentBoard()
     board.setPlacement('timeline', 'card-1', { x: 10, y: 20 })
     board.setPlacement('issueMap', 'card-1', { x: 99, y: 99 })

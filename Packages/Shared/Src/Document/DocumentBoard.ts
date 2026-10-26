@@ -8,7 +8,8 @@ import type { Placement } from '../Model/Placement'
 import type { Speaker } from '../Model/Speaker'
 import type { Topic } from '../Model/Topic'
 import type { CaptionLive, TranscriptSegment } from '../Model/TranscriptSegment'
-import type { VariantId } from '../Presentation/VariantId'
+import { createUxSettingsDefault, type LayoutId } from '../Experiment/UxFeatures'
+import type { GlossaryEntry } from '../Model/GlossaryEntry'
 
 /** Names of the top-level shared collections. */
 export type CollectionName =
@@ -21,6 +22,8 @@ export type CollectionName =
   | 'issues'
   | 'notes'
   | 'placements'
+  | 'glossary'
+  | 'confusion'
 
 /** Every collection name. */
 export const COLLECTION_NAMES: readonly CollectionName[] = [
@@ -33,6 +36,8 @@ export const COLLECTION_NAMES: readonly CollectionName[] = [
   'issues',
   'notes',
   'placements',
+  'glossary',
+  'confusion',
 ]
 
 /** Transaction origins, so observers can tell who changed the document. */
@@ -54,7 +59,8 @@ export function createMeetingMetaDefault(now: number): MeetingMeta {
     startedAt: null,
     captureMode: 'roomMicrophone',
     languageInsight: 'auto',
-    variantDefault: 'timeline',
+    uxSettings: createUxSettingsDefault(),
+    isUxLocked: false,
     agentState: 'idle',
     kindsEnabled,
     proactivity: 'medium',
@@ -79,6 +85,7 @@ export class DocumentBoard {
       ...defaults,
       ...stored,
       kindsEnabled: { ...defaults.kindsEnabled, ...stored.kindsEnabled },
+      uxSettings: { ...defaults.uxSettings, ...stored.uxSettings },
     }
   }
 
@@ -246,14 +253,48 @@ export class DocumentBoard {
     this.doc.transact(() => this.mapOf<Note>('notes').delete(id), 'participant')
   }
 
+  /** Lists glossary entries. */
+  listGlossary(): GlossaryEntry[] {
+    return valuesOf(this.mapOf<GlossaryEntry>('glossary'))
+  }
+
   /**
-   * Lists manual placements of one variant, keyed by item id.
+   * Inserts or replaces a glossary entry, keyed by its normalized term.
    *
-   * @param variant - Presentation variant.
+   * @param entry - Entry to store.
    */
-  listPlacements(variant: VariantId): Map<string, Placement> {
+  upsertGlossary(entry: GlossaryEntry): void {
+    this.doc.transact(
+      () => this.mapOf<GlossaryEntry>('glossary').set(entry.term.trim().toLowerCase(), entry),
+      'agent',
+    )
+  }
+
+  /** Reads anonymous clarification-request counts keyed by segment id. */
+  readConfusion(): Map<string, number> {
+    return new Map(this.mapOf<number>('confusion').entries())
+  }
+
+  /**
+   * Adds one anonymous clarification request to a segment's count.
+   *
+   * @param segmentId - Flagged segment.
+   */
+  incrementConfusion(segmentId: string): void {
+    this.doc.transact(() => {
+      const confusion = this.mapOf<number>('confusion')
+      confusion.set(segmentId, (confusion.get(segmentId) ?? 0) + 1)
+    }, 'agent')
+  }
+
+  /**
+   * Lists manual placements of one layout, keyed by item id.
+   *
+   * @param layout - Canvas layout.
+   */
+  listPlacements(layout: LayoutId): Map<string, Placement> {
     const placements = new Map<string, Placement>()
-    const prefix = `${variant}|`
+    const prefix = `${layout}|`
     for (const [key, value] of this.mapOf<Placement>('placements').entries()) {
       if (key.startsWith(prefix)) placements.set(key.slice(prefix.length), value)
     }
@@ -261,16 +302,16 @@ export class DocumentBoard {
   }
 
   /**
-   * Stores or clears the manual placement of an item in one variant.
+   * Stores or clears the manual placement of an item in one layout.
    *
-   * @param variant - Presentation variant.
+   * @param layout - Canvas layout.
    * @param itemId - Canvas item identifier.
    * @param placement - New position, or null to return to automatic layout.
    */
-  setPlacement(variant: VariantId, itemId: string, placement: Placement | null): void {
+  setPlacement(layout: LayoutId, itemId: string, placement: Placement | null): void {
     this.doc.transact(() => {
       const placements = this.mapOf<Placement>('placements')
-      const key = `${variant}|${itemId}`
+      const key = `${layout}|${itemId}`
       if (placement) placements.set(key, placement)
       else placements.delete(key)
     }, 'participant')

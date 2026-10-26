@@ -74,6 +74,13 @@ export interface ClarificationAskRequest {
   segmentIds: string[]
   /** Specific phrase the participant selected, if any. */
   selectedText: string | null
+  /**
+   * `utterance` explains the flagged speech; `recap` privately summarizes the last
+   * `recapMinutes` minutes ("what did I miss?").
+   */
+  mode: 'utterance' | 'recap'
+  /** Span of a recap in minutes. */
+  recapMinutes: number
   /** Language the participant wants the explanation in. */
   language: LanguageInsight
   /** Optional self-description of the participant's background, used to pitch the explanation. */
@@ -95,4 +102,15 @@ export interface InsightLayerRequest {
   layer: InsightLayer
   /** True when triggered by hover intent rather than an explicit click. */
   isPrefetch: boolean
+}
+
+/**
+ * `POST /api/rooms/:roomId/dissents` request body: a concern a participant wants raised without
+ * being identified; the agent rephrases it and posts it as its own critique.
+ */
+export interface DissentRequest {
+  /** The concern, in the participant's own words. */
+  text: string
+  /** Random per-browser identifier (rate limiting only, never shown). */
+  participantId: string
 }
