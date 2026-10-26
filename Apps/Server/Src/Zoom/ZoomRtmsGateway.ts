@@ -3,10 +3,9 @@
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { WebSocket } from 'ws'
 import type { AgentLogger } from '../Agent/AgentToolkit'
-import type { AudioIngest, AudioStreamHandle } from '../Audio/AudioIngest'
+import type { AudioIngest } from '../Audio/AudioIngest'
+import { ParticipantStreams } from '../Audio/ParticipantStreams'
 import type { RoomRuntime } from '../Rooms/RoomRuntime'
-
-const PARTICIPANT_IDLE_CLOSE_MS = 30_000
 
 /** Zoom app credentials. */
 export interface ZoomRtmsCredentials {
@@ -34,16 +33,10 @@ interface RtmsPayload {
   object?: { id?: string | number; uuid?: string }
 }
 
-interface ParticipantStream {
-  handle: Promise<AudioStreamHandle>
-  lastAudioAt: number
-}
-
 interface RtmsSession {
   room: RoomRuntime
   sockets: WebSocket[]
-  participants: Map<string, ParticipantStream>
-  idleTimer: NodeJS.Timeout
+  participants: ParticipantStreams
 }
 
 /**
@@ -154,8 +147,7 @@ export class ZoomRtmsGateway {
     const session: RtmsSession = {
       room,
       sockets: [],
-      participants: new Map(),
-      idleTimer: setInterval(() => this.closeIdleParticipants(session), 5000),
+      participants: new ParticipantStreams(room.board, this.ingest, 'zoomRtms', 'zoom', this.log),
     }
     this.sessions.set(streamId, session)
     room.board.patchMeta({ captureMode: 'zoomRtms' }, 'system')
@@ -257,46 +249,16 @@ export class ZoomRtmsGateway {
     content: { user_id?: number; user_name?: string; data?: string },
   ): void {
     const userKey = String(content.user_id ?? 0)
-    let participant = session.participants.get(userKey)
-    if (!participant) {
-      participant = {
-        handle: this.ingest.open(session.room.board, {
-          sourceId: `zoom:${userKey}`,
-          captureMode: 'zoomRtms',
-          speakerName: content.user_name || `Zoom ${userKey}`,
-          languageHints: ['ja', 'en'],
-        }),
-        lastAudioAt: Date.now(),
-      }
-      participant.handle.catch((error: unknown) =>
-        this.log.warn({ error: String(error) }, 'RTMS participant stream failed'),
-      )
-      session.participants.set(userKey, participant)
-    }
-    participant.lastAudioAt = Date.now()
     const pcm = new Uint8Array(Buffer.from(content.data ?? '', 'base64'))
-    void participant.handle.then((handle) => handle.push(pcm)).catch(() => undefined)
-  }
-
-  // recognizers bill by connection time, so silent participants are disconnected
-  private closeIdleParticipants(session: RtmsSession): void {
-    const now = Date.now()
-    for (const [key, participant] of session.participants) {
-      if (now - participant.lastAudioAt < PARTICIPANT_IDLE_CLOSE_MS) continue
-      session.participants.delete(key)
-      void participant.handle.then((handle) => handle.close()).catch(() => undefined)
-    }
+    session.participants.push(userKey, content.user_name ?? '', pcm)
   }
 
   private stop(streamId: string): void {
     const session = this.sessions.get(streamId)
     if (!session) return
     this.sessions.delete(streamId)
-    clearInterval(session.idleTimer)
     for (const socket of session.sockets) socket.close()
-    for (const participant of session.participants.values()) {
-      void participant.handle.then((handle) => handle.close()).catch(() => undefined)
-    }
+    session.participants.close()
   }
 }
 
