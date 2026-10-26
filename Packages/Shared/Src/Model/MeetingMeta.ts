@@ -12,10 +12,17 @@ import type { UxSettings } from '../Experiment/UxFeatures'
  *   tab, or system audio for desktop clients) plus their own microphone; speakers are diarized.
  * - `onlinePerParticipant`: every participant streams their own microphone from this app.
  * - `zoomRtms`: Zoom Realtime Media Streams deliver per-participant audio to the server.
+ * - `meetingBot`: a meeting bot (Recall.ai) joins Google Meet, Teams or Zoom and delivers
+ *   per-participant audio with names (experimental).
  * - `demo`: a scripted meeting is replayed (no microphone, no API keys required).
  */
 export type CaptureMode =
-  'roomMicrophone' | 'onlineHostCapture' | 'onlinePerParticipant' | 'zoomRtms' | 'demo'
+  | 'roomMicrophone'
+  | 'onlineHostCapture'
+  | 'onlinePerParticipant'
+  | 'zoomRtms'
+  | 'meetingBot'
+  | 'demo'
 
 /** Where the meeting takes place (used for capture instructions and integrations). */
 export type MeetingPlatform = 'inPerson' | 'zoom' | 'googleMeet' | 'teams' | 'other'

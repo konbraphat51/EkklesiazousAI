@@ -63,6 +63,8 @@ export interface ServerCapabilities {
   isMockMode: boolean
   /** Whether Zoom RTMS credentials are configured. */
   isZoomRtmsEnabled: boolean
+  /** Whether a meeting-bot provider (Recall.ai) is configured. */
+  isMeetingBotEnabled: boolean
 }
 
 /**
@@ -115,4 +117,16 @@ export interface DissentRequest {
   text: string
   /** Random per-browser identifier (rate limiting only, never shown). */
   participantId: string
+}
+
+/** `POST /api/rooms/:roomId/bot` request body: send a meeting bot to an online meeting. */
+export interface BotInviteRequest {
+  /** Join URL of the Google Meet, Teams or Zoom meeting. */
+  meetingUrl: string
+}
+
+/** `POST /api/rooms/:roomId/bot` response body. */
+export interface BotInviteResponse {
+  /** Provider-side bot id. */
+  botId: string
 }
