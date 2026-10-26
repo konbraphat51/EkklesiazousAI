@@ -1,0 +1,17 @@
+{
+  "name": "@ekklesiazous/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Domain model, shared Yjs document schema and wire protocols used by both client and server.",
+  "exports": {
+    ".": "./Src/Index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "yjs": "13.6.33"
+  }
+}

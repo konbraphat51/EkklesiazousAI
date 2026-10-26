@@ -1,0 +1,104 @@
+// Information the agent surfaces to participants (researched references, explainers, critiques...).
+import type { LanguageInsight } from './Language'
+
+/**
+ * Kinds of insight, each mapped to a weakness of live spoken discussion.
+ *
+ * - `priorArt`: existing products, papers or cases that the group may be about to reinvent.
+ * - `catchUp`: explainer of a term, paper or case some participants may not know.
+ * - `factCheck`: verification of a factual claim made in the discussion.
+ * - `critique`: devil's advocate — weaknesses, risks, overlooked alternatives.
+ * - `answer`: reply to an explicit question addressed to the agent.
+ */
+export type InsightKind = 'priorArt' | 'catchUp' | 'factCheck' | 'critique' | 'answer'
+
+/** Every insight kind, in display order. */
+export const INSIGHT_KINDS: readonly InsightKind[] = [
+  'priorArt',
+  'catchUp',
+  'factCheck',
+  'critique',
+  'answer',
+]
+
+/** Lifecycle of an insight; the card is shown from `researching` onward. */
+export type InsightStatus = 'researching' | 'writing' | 'ready' | 'failed' | 'dismissed'
+
+/** Verdict of a fact check. */
+export type InsightVerdict = 'supported' | 'disputed' | 'unclear'
+
+/** A reference backing an insight. */
+export interface InsightSource {
+  /** Title of the page or paper. */
+  title: string
+  /** Link to the source. */
+  url: string
+  /** Short excerpt shown under the title. */
+  snippet: string
+  /** Site, venue or publisher name. */
+  publisher: string
+  /** Publication year when known. */
+  year: number | null
+  /** Category of the source, used for the source icon. */
+  category: 'web' | 'paper' | 'encyclopedia'
+}
+
+/** Latency instrumentation, all wall-clock epoch milliseconds. */
+export interface InsightTimings {
+  /** When the recognizer finalized the triggering utterance (or the interim text was observed). */
+  utteranceAt: number
+  /** When the trigger detector decided to create the insight. */
+  triggeredAt: number
+  /** When the first written content (summary) became visible. */
+  firstContentAt: number | null
+  /** When the insight became `ready`. */
+  readyAt: number | null
+  /** Whether the trigger fired on interim (not yet final) speech. */
+  isSpeculative: boolean
+}
+
+/** One piece of information presented on the canvas. */
+export interface Insight {
+  /** Unique identifier. */
+  id: string
+  /** What kind of help the insight provides. */
+  kind: InsightKind
+  /** Lifecycle status. */
+  status: InsightStatus
+  /** Topic the insight belongs to. */
+  topicId: string | null
+  /** Short headline (shown immediately, before research finishes). */
+  title: string
+  /** One or two sentence summary. */
+  summary: string
+  /** Key points. */
+  bullets: string[]
+  /** Supporting references. */
+  sources: InsightSource[]
+  /** Fact-check verdict; null for other kinds. */
+  verdict: InsightVerdict | null
+  /** How urgently participants should see this, 0..1. */
+  urgency: number
+  /** Agent's confidence in the content, 0..1. */
+  confidence: number
+  /** Language the insight is written in. */
+  language: LanguageInsight
+  /** Search query used for research. */
+  query: string
+  /** Why the agent surfaced this, shown for transparency. */
+  reason: string
+  /** Utterances that triggered the insight. */
+  triggerSegmentIds: string[]
+  /** Excerpt of the triggering speech. */
+  triggerQuote: string
+  /** Creation time (epoch ms). */
+  createdAt: number
+  /** Last update time (epoch ms). */
+  updatedAt: number
+  /** Latency instrumentation. */
+  timings: InsightTimings
+  /** Whether a participant pinned the card (pinned cards never fade). */
+  isPinned: boolean
+  /** Participant votes on usefulness, keyed by participant id. */
+  votes: Record<string, 'up' | 'down'>
+}
