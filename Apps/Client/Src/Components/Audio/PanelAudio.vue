@@ -20,7 +20,7 @@
           </option>
         </select>
       </label>
-      <label v-if="captureMode === 'onlinePerParticipant'" class="field">
+      <label v-if="captureMode !== 'roomMicrophone'" class="field">
         <span>{{ t('audio.yourName') }}</span>
         <input v-model="identity.name" class="input" :disabled="isActive" />
       </label>
@@ -54,7 +54,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, type PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { AudioCapture } from '../../Services/AudioCapture'
+import { planCaptureChannels, type AudioCapture } from '../../Services/AudioCapture'
 import { identity } from '../../Services/ParticipantIdentity'
 import { useRoomSession } from '../../Services/RoomSession'
 import DialogConsent from './DialogConsent.vue'
@@ -90,10 +90,8 @@ export default defineComponent({
       const mode = captureMode.value
       void props.capture.start({
         roomId: session.roomId,
-        captureMode: mode,
-        sourceId: `${mode}:${identity.participantId.slice(0, 8)}`,
-        speakerName: mode === 'onlinePerParticipant' ? identity.name || null : null,
-        isMeetingAudioIncluded: mode === 'onlineHostCapture',
+        meetingPlatform: meta.value.meetingPlatform,
+        channels: planCaptureChannels(mode, identity.participantId, identity.name),
         microphoneDeviceId: microphoneDeviceId.value,
         languageHints: ['ja', 'en'],
       })
