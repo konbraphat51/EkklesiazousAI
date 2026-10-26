@@ -1,0 +1,423 @@
+{
+  "common": {
+    "language": "Language",
+    "anonymous": "Anonymous",
+    "cancel": "Cancel"
+  },
+  "lobby": {
+    "tagline": "An AI that listens to your meeting and quietly researches what you talk about — prior art, unfamiliar terms, evidence and counterpoints — on a shared canvas, so nobody has to stop the conversation to look things up.",
+    "mockBanner": "Demo mode: no API keys are configured. Try the scripted bilingual meeting below, or add keys to .env for live research.",
+    "serverUnreachable": "Cannot reach the server. Is it running?",
+    "createHeading": "New meeting",
+    "title": "Meeting title",
+    "titlePlaceholder": "e.g. Weekly lab meeting",
+    "platform": "Where is the meeting?",
+    "captureMode": "How should audio be captured?",
+    "create": "Create room",
+    "demoHeading": "Try the demo",
+    "demoText": "Replays a short Japanese/English meeting so you can watch the agent find prior art, explain terms, check claims and challenge a quick consensus.",
+    "demoStart": "Start demo meeting",
+    "demoTitle": "Demo: building a meeting transcription tool",
+    "joinHeading": "Join a room",
+    "joinPlaceholder": "Room code or link",
+    "join": "Join",
+    "recent": "Recent rooms",
+    "providers": "Providers"
+  },
+  "platform": {
+    "inPerson": "In person (one room microphone)",
+    "zoom": "Zoom",
+    "googleMeet": "Google Meet",
+    "teams": "Microsoft Teams",
+    "other": "Other online meeting"
+  },
+  "captureMode": {
+    "roomMicrophone": "Room microphone",
+    "onlineHostCapture": "Host captures the meeting audio",
+    "onlinePerParticipant": "Everyone streams their own microphone",
+    "zoomRtms": "Zoom RTMS (server-side, per participant)",
+    "demo": "Scripted demo"
+  },
+  "captureModeHint": {
+    "roomMicrophone": "One laptop in the room records everyone; voices are separated automatically.",
+    "onlineHostCapture": "One person shares the meeting tab (or system audio) plus their own microphone. No setup for others.",
+    "onlinePerParticipant": "Each participant opens this room and streams their own microphone. Best speaker names; needs headphones.",
+    "zoomRtms": "Zoom sends each participant's audio to the server. Requires a Zoom RTMS app (see docs).",
+    "demo": "No microphone: a scripted meeting is replayed."
+  },
+  "captureHelp": {
+    "roomMicrophone": "Place the laptop in the middle of the table. Browser noise suppression is turned off so distant voices are kept.",
+    "onlinePerParticipant": "Your microphone is sent as your own voice. Use headphones so others' voices from your speakers are not recorded twice.",
+    "zoomRtms": "Audio comes directly from Zoom.",
+    "demo": "The scripted meeting provides the audio.",
+    "onlineHostCapture": {
+      "inPerson": "Share the meeting audio and your microphone.",
+      "zoom": "Zoom web client: choose the Zoom tab and tick “Share tab audio”.\nZoom desktop on Windows: choose “Entire screen” and tick “Share system audio”.\nYour microphone is sent as a separate, named stream.",
+      "googleMeet": "Use Google Meet in a regular Chrome or Edge tab. Choose that Meet tab and tick “Also share tab audio”. Your own microphone is sent as a separate, named stream.",
+      "teams": "Teams web: choose the Teams tab and tick “Share tab audio”. Teams desktop on Windows: choose “Entire screen” and tick “Share system audio”.",
+      "other": "Choose the meeting tab (or entire screen) and enable audio sharing."
+    }
+  },
+  "kind": {
+    "priorArt": "Prior art",
+    "catchUp": "Catch-up",
+    "factCheck": "Evidence",
+    "critique": "Challenge",
+    "answer": "Answer"
+  },
+  "origin": {
+    "commandBy": "asked by {name}",
+    "command": "requested",
+    "clarification": "several people asked",
+    "proxyDissent": "raised anonymously"
+  },
+  "sourceCategory": {
+    "web": "Web",
+    "paper": "Paper",
+    "encyclopedia": "Encyclopedia"
+  },
+  "card": {
+    "voteUp": "Useful",
+    "voteDown": "Not useful",
+    "pin": "Pin (never fades)",
+    "unpin": "Unpin",
+    "spotlight": "Spotlight for everyone",
+    "dismiss": "Dismiss for everyone",
+    "failed": "Could not research this.",
+    "confidence": "Agent confidence",
+    "more": "More ▸",
+    "less": "Less ▴",
+    "deep": "Dig deeper",
+    "deepRetry": "Retry deep dive",
+    "showSources": "Show {count} sources",
+    "why": "Why",
+    "latency": "appeared {seconds}s after the remark"
+  },
+  "verdict": {
+    "supported": "Evidence supports",
+    "disputed": "Evidence contradicts",
+    "unclear": "Evidence mixed"
+  },
+  "progress": {
+    "searching": "Searching…",
+    "planning": "Planning deep research…",
+    "reading": "Reading {count} sources…",
+    "writing": "Writing…"
+  },
+  "transcript": {
+    "confusionTitle": "Participants privately asked about this (anonymous count)",
+    "explain": "I didn't follow — explain privately",
+    "explainSelection": "Explain “{text}” privately",
+    "rename": "Rename speaker",
+    "renamePrompt": "Name of this speaker",
+    "empty": "The transcript appears here once audio starts (or start the demo)."
+  },
+  "canvas": {
+    "otherTopic": "Other",
+    "agentNode": "Added by the agent (edit to take it over)",
+    "notePlaceholder": "Write a note…",
+    "deleteNote": "Delete note",
+    "now": "now",
+    "jumpToLive": "Jump to live",
+    "addNote": "Note",
+    "empty": {
+      "timeline": "Insights will appear above the moment they were triggered. Double-click anywhere to add a note.",
+      "topicMap": "Insights will gather into topic islands as the discussion moves on.",
+      "issueMap": "The issue map (questions, ideas, pros and cons) builds up as the agent follows the discussion.",
+      "periphery": "Calm mode: insights stay in the side trays; only urgent ones come to the centre."
+    }
+  },
+  "issueType": {
+    "question": "Question",
+    "idea": "Idea",
+    "pro": "Pro",
+    "con": "Con",
+    "decision": "Decision"
+  },
+  "spotlight": {
+    "label": "Spotlight",
+    "close": "Close for everyone"
+  },
+  "periphery": {
+    "catchUp": "Catch-up",
+    "research": "Prior art & answers",
+    "challenges": "Evidence & challenges"
+  },
+  "balance": {
+    "title": "Share of speaking time (no names)",
+    "balanced": "balanced",
+    "uneven": "uneven"
+  },
+  "summary": {
+    "heading": "Meeting so far",
+    "empty": "The agent summarizes the meeting as it goes.",
+    "decisions": "Decisions",
+    "openQuestions": "Open questions"
+  },
+  "glossary": {
+    "empty": "Terms the agent explains are collected here."
+  },
+  "side": {
+    "transcript": "Transcript",
+    "summary": "Summary",
+    "glossary": "Glossary"
+  },
+  "private": {
+    "heading": "Only you",
+    "hint": "Explanations here are private. Nobody sees what you asked unless you share it — and even then it is anonymous.",
+    "background": "About me (to tailor explanations)",
+    "backgroundPlaceholder": "e.g. designer, new to machine learning",
+    "empty": "Click “?” on any line of the transcript, press ? on your keyboard, or use “What was that?”.",
+    "writing": "Explaining…",
+    "failed": "Could not explain this right now.",
+    "share": "Share anonymously",
+    "shared": "Shared",
+    "remove": "Remove"
+  },
+  "command": {
+    "whatWasThat": "What was that?",
+    "whatWasThatHint": "Privately explain the last few seconds (shortcut: ?)",
+    "whatDidIMiss": "What did I miss?",
+    "research": "Research",
+    "dissent": "Raise anonymously",
+    "placeholder": "Ask the agent to look something up…",
+    "dissentPlaceholder": "A concern you'd rather not voice yourself — the agent raises it as its own…",
+    "depth": "Research depth",
+    "private": "Only me",
+    "privateHint": "Show the result only to you",
+    "send": "Research",
+    "raise": "Raise",
+    "sent": "Researching — the card is on the canvas.",
+    "sentPrivate": "Researching privately — see “Only you”.",
+    "notResearch": "That does not look like something to research.",
+    "failed": "Something went wrong. Try again.",
+    "dissentResult": {
+      "posted": "The agent will raise it at the next pause, without your name.",
+      "rejected": "The agent did not post this (it looked like a personal attack or off-topic).",
+      "rateLimited": "Please wait a few minutes before raising another concern."
+    }
+  },
+  "depth": {
+    "quick": "Quick",
+    "standard": "Standard",
+    "deep": "Deep"
+  },
+  "agentState": {
+    "idle": "Agent idle",
+    "listening": "Listening",
+    "paused": "Paused"
+  },
+  "agent": {
+    "start": "Start",
+    "pause": "Pause",
+    "demo": "Demo"
+  },
+  "layout": {
+    "label": "Layout",
+    "timeline": "Timeline rail",
+    "topicMap": "Topic islands",
+    "issueMap": "Issue map",
+    "periphery": "Calm periphery"
+  },
+  "layoutHint": {
+    "timeline": "Hypothesis: anchoring each insight to the moment it was triggered makes it cheap to connect information to the talk.",
+    "topicMap": "Hypothesis: stable spatial clusters by topic help the group see what is covered and what is missing.",
+    "issueMap": "Hypothesis: an explicit map of questions, ideas, pros and cons counters circular talk and premature consensus.",
+    "periphery": "Hypothesis: quiet edge trays minimize interruption; only urgent insights reach the centre."
+  },
+  "presence": {
+    "label": "Participants"
+  },
+  "consent": {
+    "title": "Before you start recording",
+    "pointTranscribe": "Meeting audio from this device is transcribed in real time.",
+    "pointProviders": "Audio and text are sent to the speech-recognition and AI services configured for this server.",
+    "pointInform": "Everyone in the meeting must know and agree that the meeting is being transcribed.",
+    "pointStore": "Transcripts and insights are stored on this server with the room.",
+    "accept": "Everyone agrees — start"
+  },
+  "audio": {
+    "demoNote": "This room replays a scripted meeting. Use “Demo” in the toolbar to play it again.",
+    "rtmsNote": "Enter the Zoom meeting ID in Settings → Room, then start the RTMS app in Zoom. Audio arrives automatically.",
+    "microphone": "Microphone",
+    "defaultMicrophone": "Default microphone",
+    "yourName": "Your name (shown as speaker)",
+    "headphones": "Use headphones, otherwise your microphone also records other people's voices from your speakers.",
+    "start": "Start capturing",
+    "stop": "Stop",
+    "status": {
+      "idle": "Not capturing",
+      "starting": "Starting…",
+      "live": "Live",
+      "error": "Stopped"
+    },
+    "error": {
+      "microphoneDenied": "Microphone access was denied.",
+      "meetingAudioMissing": "No audio was shared. Choose the meeting tab and tick “Share tab audio” (or “Share system audio”).",
+      "meetingAudioCancelled": "Sharing was cancelled.",
+      "serverRejected": "The server could not start speech recognition.",
+      "connectionLost": "The connection was lost."
+    }
+  },
+  "uxFeature": {
+    "layout": {
+      "name": "Canvas layout",
+      "options": {
+        "timeline": "Timeline rail",
+        "topicMap": "Topic islands",
+        "issueMap": "Issue map",
+        "periphery": "Calm periphery"
+      },
+      "hint": {
+        "timeline": "Insights hang above the utterance that triggered them.",
+        "topicMap": "Insights cluster by topic in frames that never move on their own.",
+        "issueMap": "IBIS map; evidence and challenges attach to ideas.",
+        "periphery": "Edge trays; only urgent items reach the centre."
+      }
+    },
+    "spotlight": {
+      "name": "Shared spotlight",
+      "options": { "manual": "Participants", "auto": "Participants + agent", "off": "Off" },
+      "hint": {
+        "manual": "Anyone can promote a card to the centre for everyone.",
+        "auto": "The agent also spotlights urgent insights.",
+        "off": "No shared spotlight."
+      }
+    },
+    "disclosure": {
+      "name": "Card detail",
+      "options": { "progressive": "Gist first", "full": "Everything" },
+      "hint": {
+        "progressive": "One plain sentence; click for detail (faster, lighter to read).",
+        "full": "Detail is generated and shown up front."
+      }
+    },
+    "deliveryTiming": {
+      "name": "When cards appear",
+      "options": {
+        "breakpoint": "At a pause",
+        "immediate": "Immediately",
+        "digest": "Every minute",
+        "shadow": "Never (shadow)"
+      },
+      "hint": {
+        "breakpoint": "Non-urgent cards wait for a pause or a change of speaker.",
+        "immediate": "Cards appear as soon as research starts.",
+        "digest": "Non-urgent cards are batched into a digest.",
+        "shadow": "Research baseline: cards are generated and logged but not shown."
+      }
+    },
+    "attentionCue": {
+      "name": "New card cue",
+      "options": { "pulse": "Glow", "toast": "Toast", "autoPan": "Move view", "none": "None" },
+      "hint": {
+        "pulse": "The new card glows briefly.",
+        "toast": "A small notification links to the card.",
+        "autoPan": "The view moves to the new card when you are idle.",
+        "none": "No cue."
+      }
+    },
+    "critiqueFraming": {
+      "name": "Challenge style",
+      "options": {
+        "question": "Question",
+        "statement": "Statement",
+        "persona": "Stakeholder voice"
+      },
+      "hint": {
+        "question": "Challenges are asked as Socratic questions (less face-threatening).",
+        "statement": "Challenges are stated as concise concerns.",
+        "persona": "Challenges are voiced as a stakeholder might ask them."
+      }
+    },
+    "cardAging": {
+      "name": "Older cards",
+      "options": { "fade": "Fade", "keep": "Keep" },
+      "hint": {
+        "fade": "Unpinned cards fade after 5 minutes to reduce clutter.",
+        "keep": "Cards stay at full strength."
+      }
+    },
+    "confusionMarks": {
+      "name": "Anonymous “?” marks",
+      "options": { "visible": "Visible", "hidden": "Hidden" },
+      "hint": {
+        "visible": "Everyone sees how many people privately asked about a line (no names).",
+        "hidden": "Only the agent knows."
+      }
+    },
+    "speakingBalance": {
+      "name": "Speaking balance",
+      "options": { "hidden": "Hidden", "visible": "Visible" },
+      "hint": {
+        "hidden": "No participation meter.",
+        "visible": "An anonymous bar shows how evenly speaking time is shared."
+      }
+    },
+    "sourceDisplay": {
+      "name": "Sources",
+      "options": { "inline": "Inline", "onDemand": "On demand" },
+      "hint": {
+        "inline": "Expanded cards list their sources.",
+        "onDemand": "Sources appear only when asked for."
+      }
+    },
+    "requesterIdentity": {
+      "name": "Who asked",
+      "options": { "shown": "Shown", "hidden": "Hidden" },
+      "hint": {
+        "shown": "Cards show who requested them.",
+        "hidden": "Requests are anonymous."
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "tab": { "me": "Me", "room": "Room", "experiment": "Experiment" },
+    "name": "Display name",
+    "locked": "The room locked these options for an experiment.",
+    "zoomMeetingId": "Zoom meeting ID (for RTMS)",
+    "languageInsight": "Language of insights",
+    "proactivity": "How proactive the agent is",
+    "depthDefault": "Default research depth",
+    "kinds": "What the agent may volunteer",
+    "wakeWords": "Wake words (comma separated)",
+    "promotion": "When several people privately ask about the same moment, post an anonymous catch-up card",
+    "experimentIntro": "Room-wide UX conditions. Every option embodies a hypothesis; interactions are logged on the server for comparison.",
+    "lock": "Lock participants to these settings",
+    "minutes": "Download minutes (Markdown)"
+  },
+  "languageInsight": {
+    "auto": "Same as the speaker",
+    "en": "English",
+    "ja": "Japanese"
+  },
+  "proactivity": {
+    "off": "Off (only when asked)",
+    "low": "Low (only important)",
+    "medium": "Medium",
+    "high": "High (anything helpful)"
+  },
+  "nameDialog": {
+    "title": "What should others call you?",
+    "text": "Your name is shown on your cursor and on cards you request. Private questions are never linked to it.",
+    "placeholder": "Your name",
+    "skip": "Stay anonymous",
+    "save": "Continue"
+  },
+  "toolbar": {
+    "copyLink": "Copy room link",
+    "recording": "REC",
+    "recordingTitle": "This meeting is being transcribed",
+    "audio": "Audio",
+    "private": "Only you"
+  },
+  "sync": {
+    "connecting": "Connecting…",
+    "connected": "Synced",
+    "disconnected": "Offline"
+  },
+  "room": {
+    "missing": "This room does not exist."
+  }
+}

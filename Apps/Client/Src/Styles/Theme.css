@@ -1,0 +1,138 @@
+/* Design tokens and base styles shared by every component. */
+:root {
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f3f5;
+  --color-border: #dfe3e8;
+  --color-text: #1d2129;
+  --color-text-muted: #5f6b7a;
+  --color-accent: #4f6bed;
+  --color-accent-soft: #e8ecfd;
+  --color-danger: #d6336c;
+  --color-success: #2b8a3e;
+  --color-warning: #e67700;
+
+  --kind-priorArt: #4f6bed;
+  --kind-catchUp: #0c8599;
+  --kind-factCheck: #e67700;
+  --kind-critique: #d6336c;
+  --kind-answer: #7048e8;
+
+  --issue-question: #4f6bed;
+  --issue-idea: #f08c00;
+  --issue-pro: #2b8a3e;
+  --issue-con: #d6336c;
+  --issue-decision: #0c8599;
+
+  --radius-small: 6px;
+  --radius: 10px;
+  --radius-large: 14px;
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 2px 8px rgba(16, 24, 40, 0.06);
+  --shadow-raised: 0 8px 28px rgba(16, 24, 40, 0.16);
+  --font-body: 'Inter', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.button:hover {
+  border-color: var(--color-accent);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.button--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.button--danger {
+  color: var(--color-danger);
+}
+
+.button--ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.button--small {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field > span {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.input {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+}
+
+.input:focus {
+  outline: 2px solid var(--color-accent-soft);
+  border-color: var(--color-accent);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

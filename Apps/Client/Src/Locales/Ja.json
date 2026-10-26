@@ -1,0 +1,419 @@
+{
+  "common": {
+    "language": "言語",
+    "anonymous": "匿名",
+    "cancel": "キャンセル"
+  },
+  "lobby": {
+    "tagline": "会議を聞きながら、話題に関係する既存事例・用語・根拠・反論を AI が静かに調べ、共有キャンバスに提示します。誰も会話を止めて調べ物をする必要はありません。",
+    "mockBanner": "デモモード: API キーが設定されていません。下のスクリプト会議 (日英混在) を試すか、.env にキーを設定するとライブ調査が使えます。",
+    "serverUnreachable": "サーバーに接続できません。起動していますか？",
+    "createHeading": "新しい会議",
+    "title": "会議名",
+    "titlePlaceholder": "例: 週次ラボミーティング",
+    "platform": "会議の場所",
+    "captureMode": "音声の取り込み方法",
+    "create": "ルームを作成",
+    "demoHeading": "デモを試す",
+    "demoText": "日英混在の短い会議を再生し、AI が既存事例を見つけ、用語を解説し、主張を検証し、性急な合意に疑問を投げかける様子を確認できます。",
+    "demoStart": "デモ会議を開始",
+    "demoTitle": "デモ: 議事録ツールを作る相談",
+    "joinHeading": "ルームに参加",
+    "joinPlaceholder": "ルームコードまたはリンク",
+    "join": "参加",
+    "recent": "最近のルーム",
+    "providers": "使用中のサービス"
+  },
+  "platform": {
+    "inPerson": "対面 (部屋のマイク 1 本)",
+    "zoom": "Zoom",
+    "googleMeet": "Google Meet",
+    "teams": "Microsoft Teams",
+    "other": "その他のオンライン会議"
+  },
+  "captureMode": {
+    "roomMicrophone": "部屋のマイク",
+    "onlineHostCapture": "ホストが会議音声を取り込む",
+    "onlinePerParticipant": "各自が自分のマイクを送る",
+    "zoomRtms": "Zoom RTMS (サーバー側・参加者別)",
+    "demo": "スクリプトデモ"
+  },
+  "captureModeHint": {
+    "roomMicrophone": "部屋のノート PC 1 台で全員の声を録音し、話者は自動で区別されます。",
+    "onlineHostCapture": "1 人が会議タブ (またはシステム音声) と自分のマイクを共有します。他の人は準備不要です。",
+    "onlinePerParticipant": "参加者がそれぞれこのルームを開き、自分のマイクを送ります。話者名が正確になります (ヘッドホン推奨)。",
+    "zoomRtms": "Zoom が参加者ごとの音声をサーバーへ送ります。Zoom RTMS アプリが必要です (ドキュメント参照)。",
+    "demo": "マイクなし: スクリプト会議を再生します。"
+  },
+  "captureHelp": {
+    "roomMicrophone": "ノート PC をテーブル中央に置いてください。遠くの声を消さないよう、ブラウザのノイズ除去はオフにしています。",
+    "onlinePerParticipant": "あなたのマイク音声はあなたの発言として送られます。スピーカーから出る他の人の声が二重に録音されないよう、ヘッドホンを使ってください。",
+    "zoomRtms": "音声は Zoom から直接届きます。",
+    "demo": "スクリプト会議が音声の代わりです。",
+    "onlineHostCapture": {
+      "inPerson": "会議の音声と自分のマイクを共有してください。",
+      "zoom": "Zoom ウェブ版: Zoom のタブを選び「タブの音声も共有」にチェック。\nWindows の Zoom デスクトップ版: 「画面全体」を選び「システム音声を共有」にチェック。\nあなたのマイクは名前付きの別ストリームで送られます。",
+      "googleMeet": "Google Meet は Chrome / Edge の通常のタブで開いてください。その Meet のタブを選び「タブの音声も共有する」にチェックします。あなた自身のマイクは名前付きの別ストリームで送られます。",
+      "teams": "Teams ウェブ版: Teams のタブを選び「タブの音声も共有」にチェック。Windows の Teams デスクトップ版: 「画面全体」を選び「システム音声を共有」にチェック。",
+      "other": "会議のタブ (または画面全体) を選び、音声の共有を有効にしてください。"
+    }
+  },
+  "kind": {
+    "priorArt": "既存事例",
+    "catchUp": "補足",
+    "factCheck": "根拠",
+    "critique": "問いかけ",
+    "answer": "回答"
+  },
+  "origin": {
+    "commandBy": "{name} さんの依頼",
+    "command": "依頼",
+    "clarification": "複数人が疑問",
+    "proxyDissent": "匿名の懸念"
+  },
+  "sourceCategory": {
+    "web": "Web",
+    "paper": "論文",
+    "encyclopedia": "百科事典"
+  },
+  "card": {
+    "voteUp": "役に立った",
+    "voteDown": "役に立たない",
+    "pin": "固定 (薄くならない)",
+    "unpin": "固定を解除",
+    "spotlight": "全員にスポットライト",
+    "dismiss": "全員の画面から消す",
+    "failed": "調査できませんでした。",
+    "confidence": "AI の確信度",
+    "more": "詳しく ▸",
+    "less": "閉じる ▴",
+    "deep": "さらに深掘り",
+    "deepRetry": "深掘りを再試行",
+    "showSources": "出典 {count} 件を表示",
+    "why": "理由",
+    "latency": "発言から {seconds} 秒で提示"
+  },
+  "verdict": {
+    "supported": "根拠あり",
+    "disputed": "根拠と矛盾",
+    "unclear": "見解が分かれる"
+  },
+  "progress": {
+    "searching": "検索中…",
+    "planning": "深掘り調査を計画中…",
+    "reading": "{count} 件の資料を読んでいます…",
+    "writing": "まとめています…"
+  },
+  "transcript": {
+    "confusionTitle": "この発言について個別に質問した人数 (匿名)",
+    "explain": "分からなかった — こっそり解説",
+    "explainSelection": "「{text}」をこっそり解説",
+    "rename": "話者名を変更",
+    "renamePrompt": "この話者の名前",
+    "empty": "音声を開始すると (またはデモを開始すると) ここに文字起こしが表示されます。"
+  },
+  "canvas": {
+    "otherTopic": "その他",
+    "agentNode": "AI が追加 (編集すると人間の管理になります)",
+    "notePlaceholder": "メモを書く…",
+    "deleteNote": "メモを削除",
+    "now": "現在",
+    "jumpToLive": "最新へ移動",
+    "addNote": "メモ",
+    "empty": {
+      "timeline": "インサイトはきっかけとなった発言の時刻の上に表示されます。ダブルクリックでメモを追加できます。",
+      "topicMap": "議論が進むと、インサイトが話題ごとの島にまとまります。",
+      "issueMap": "AI が議論を追いながら、論点マップ (問い・案・賛成・反対) を組み立てます。",
+      "periphery": "静かなモード: インサイトは端のトレイに置かれ、緊急のものだけが中央に出ます。"
+    }
+  },
+  "issueType": {
+    "question": "問い",
+    "idea": "案",
+    "pro": "賛成",
+    "con": "反対",
+    "decision": "決定"
+  },
+  "spotlight": {
+    "label": "スポットライト",
+    "close": "全員の画面で閉じる"
+  },
+  "periphery": {
+    "catchUp": "補足",
+    "research": "既存事例・回答",
+    "challenges": "根拠・問いかけ"
+  },
+  "balance": {
+    "title": "発言時間の割合 (名前なし)",
+    "balanced": "均等",
+    "uneven": "偏りあり"
+  },
+  "summary": {
+    "heading": "ここまでの会議",
+    "empty": "AI が会議の進行に合わせて要約します。",
+    "decisions": "決定事項",
+    "openQuestions": "未解決の問い"
+  },
+  "glossary": {
+    "empty": "AI が解説した用語がここに集まります。"
+  },
+  "side": {
+    "transcript": "文字起こし",
+    "summary": "要約",
+    "glossary": "用語集"
+  },
+  "private": {
+    "heading": "あなただけ",
+    "hint": "ここの解説はあなたにしか見えません。共有しない限り誰にも知られず、共有しても匿名です。",
+    "background": "自分について (解説の難易度調整用)",
+    "backgroundPlaceholder": "例: デザイナー、機械学習は初心者",
+    "empty": "文字起こしの各行の「?」、キーボードの ? キー、または「今のは何？」を使ってください。",
+    "writing": "解説中…",
+    "failed": "今は解説できませんでした。",
+    "share": "匿名で共有",
+    "shared": "共有済み",
+    "remove": "削除"
+  },
+  "command": {
+    "whatWasThat": "今のは何？",
+    "whatWasThatHint": "直前の数秒をこっそり解説 (ショートカット: ?)",
+    "whatDidIMiss": "聞き逃した",
+    "research": "調査依頼",
+    "dissent": "匿名で問題提起",
+    "placeholder": "AI に調べてほしいことを入力…",
+    "dissentPlaceholder": "自分では言いにくい懸念 — AI が自分の意見として提起します…",
+    "depth": "調査の深さ",
+    "private": "自分だけ",
+    "privateHint": "結果を自分にだけ表示",
+    "send": "調べる",
+    "raise": "提起",
+    "sent": "調査中です — キャンバスにカードが出ます。",
+    "sentPrivate": "こっそり調査中です — 「あなただけ」を見てください。",
+    "notResearch": "調査する内容ではないようです。",
+    "failed": "うまくいきませんでした。もう一度お試しください。",
+    "dissentResult": {
+      "posted": "次の区切りで、あなたの名前を出さずに AI が提起します。",
+      "rejected": "個人攻撃や無関係な内容に見えたため、AI は投稿しませんでした。",
+      "rateLimited": "数分待ってから次の懸念を提起してください。"
+    }
+  },
+  "depth": {
+    "quick": "さっと",
+    "standard": "標準",
+    "deep": "じっくり"
+  },
+  "agentState": {
+    "idle": "AI 待機中",
+    "listening": "聞き取り中",
+    "paused": "一時停止"
+  },
+  "agent": {
+    "start": "開始",
+    "pause": "一時停止",
+    "demo": "デモ"
+  },
+  "layout": {
+    "label": "レイアウト",
+    "timeline": "タイムライン",
+    "topicMap": "話題の島",
+    "issueMap": "論点マップ",
+    "periphery": "静かな周辺表示"
+  },
+  "layoutHint": {
+    "timeline": "仮説: 各インサイトをきっかけの発言の時刻に結び付けると、情報と会話の対応付けが楽になる。",
+    "topicMap": "仮説: 話題ごとに位置が固定されたクラスタは、何を議論済みで何が抜けているかを見えやすくする。",
+    "issueMap": "仮説: 問い・案・賛否を明示した地図は、堂々巡りや早すぎる合意を防ぐ。",
+    "periphery": "仮説: 端の静かなトレイは割り込みを最小化し、緊急のものだけを中央に出せばよい。"
+  },
+  "presence": {
+    "label": "参加者"
+  },
+  "consent": {
+    "title": "録音を始める前に",
+    "pointTranscribe": "この端末の会議音声はリアルタイムで文字起こしされます。",
+    "pointProviders": "音声とテキストは、このサーバーに設定された音声認識・AI サービスに送信されます。",
+    "pointInform": "会議の全員が、文字起こしされることを知り同意している必要があります。",
+    "pointStore": "文字起こしとインサイトはルームとともにこのサーバーに保存されます。",
+    "accept": "全員が同意済み — 開始"
+  },
+  "audio": {
+    "demoNote": "このルームはスクリプト会議を再生します。ツールバーの「デモ」で再生し直せます。",
+    "rtmsNote": "設定 → ルーム で Zoom の会議 ID を入力し、Zoom で RTMS アプリを開始してください。音声は自動で届きます。",
+    "microphone": "マイク",
+    "defaultMicrophone": "既定のマイク",
+    "yourName": "あなたの名前 (話者名として表示)",
+    "headphones": "ヘッドホンを使ってください。使わないと、スピーカーから出る他の人の声もマイクに入ります。",
+    "start": "取り込み開始",
+    "stop": "停止",
+    "status": {
+      "idle": "停止中",
+      "starting": "開始中…",
+      "live": "取り込み中",
+      "error": "停止しました"
+    },
+    "error": {
+      "microphoneDenied": "マイクへのアクセスが拒否されました。",
+      "meetingAudioMissing": "音声が共有されていません。会議のタブを選び「タブの音声も共有」(または「システム音声を共有」) にチェックしてください。",
+      "meetingAudioCancelled": "共有がキャンセルされました。",
+      "serverRejected": "サーバーで音声認識を開始できませんでした。",
+      "connectionLost": "接続が切れました。"
+    }
+  },
+  "uxFeature": {
+    "layout": {
+      "name": "キャンバスのレイアウト",
+      "options": {
+        "timeline": "タイムライン",
+        "topicMap": "話題の島",
+        "issueMap": "論点マップ",
+        "periphery": "静かな周辺表示"
+      },
+      "hint": {
+        "timeline": "きっかけの発言の上にインサイトを表示します。",
+        "topicMap": "話題ごとの枠にまとめ、勝手に動かしません。",
+        "issueMap": "IBIS 形式の論点マップ。根拠や問いかけを案に結び付けます。",
+        "periphery": "端のトレイに置き、緊急のものだけ中央に出します。"
+      }
+    },
+    "spotlight": {
+      "name": "共有スポットライト",
+      "options": { "manual": "参加者のみ", "auto": "参加者 + AI", "off": "なし" },
+      "hint": {
+        "manual": "誰でもカードを全員の画面中央に出せます。",
+        "auto": "緊急のインサイトは AI もスポットライトします。",
+        "off": "共有スポットライトを使いません。"
+      }
+    },
+    "disclosure": {
+      "name": "カードの詳しさ",
+      "options": { "progressive": "一言から", "full": "すべて表示" },
+      "hint": {
+        "progressive": "平易な一文だけを表示し、クリックで詳細 (速く、読む負担が軽い)。",
+        "full": "詳細を最初から生成して表示します。"
+      }
+    },
+    "deliveryTiming": {
+      "name": "カードを出すタイミング",
+      "options": {
+        "breakpoint": "区切りで",
+        "immediate": "すぐに",
+        "digest": "1 分ごと",
+        "shadow": "出さない (シャドー)"
+      },
+      "hint": {
+        "breakpoint": "緊急でないカードは、間や話者交代まで待ちます。",
+        "immediate": "調査開始と同時に表示します。",
+        "digest": "緊急でないカードはまとめて表示します。",
+        "shadow": "研究用ベースライン: 生成・記録はするが表示しません。"
+      }
+    },
+    "attentionCue": {
+      "name": "新着カードの知らせ方",
+      "options": { "pulse": "光る", "toast": "通知", "autoPan": "画面を移動", "none": "なし" },
+      "hint": {
+        "pulse": "新しいカードが少しの間光ります。",
+        "toast": "小さな通知からカードへ移動できます。",
+        "autoPan": "操作していないときは新しいカードへ画面が移動します。",
+        "none": "知らせません。"
+      }
+    },
+    "critiqueFraming": {
+      "name": "問いかけの形",
+      "options": { "question": "質問", "statement": "指摘", "persona": "関係者の声" },
+      "hint": {
+        "question": "ソクラテス式の質問として投げかけます (角が立ちにくい)。",
+        "statement": "簡潔な懸念として述べます。",
+        "persona": "関係者が尋ねそうな形で述べます。"
+      }
+    },
+    "cardAging": {
+      "name": "古いカード",
+      "options": { "fade": "薄くする", "keep": "そのまま" },
+      "hint": {
+        "fade": "固定していないカードは 5 分後に薄くなります。",
+        "keep": "常に同じ濃さで表示します。"
+      }
+    },
+    "confusionMarks": {
+      "name": "匿名の「?」印",
+      "options": { "visible": "表示", "hidden": "非表示" },
+      "hint": {
+        "visible": "各発言にこっそり質問した人数を全員に表示します (名前なし)。",
+        "hidden": "AI だけが把握します。"
+      }
+    },
+    "speakingBalance": {
+      "name": "発言バランス",
+      "options": { "hidden": "非表示", "visible": "表示" },
+      "hint": {
+        "hidden": "発言量メーターを表示しません。",
+        "visible": "発言時間の偏りを名前なしの棒で表示します。"
+      }
+    },
+    "sourceDisplay": {
+      "name": "出典",
+      "options": { "inline": "常に表示", "onDemand": "必要なときだけ" },
+      "hint": {
+        "inline": "詳細を開くと出典も表示します。",
+        "onDemand": "求められたときだけ出典を表示します。"
+      }
+    },
+    "requesterIdentity": {
+      "name": "依頼者の表示",
+      "options": { "shown": "表示", "hidden": "非表示" },
+      "hint": {
+        "shown": "カードに依頼者の名前を表示します。",
+        "hidden": "依頼は匿名になります。"
+      }
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "tab": { "me": "自分", "room": "ルーム", "experiment": "実験" },
+    "name": "表示名",
+    "locked": "実験のため、ルームがこれらの設定を固定しています。",
+    "zoomMeetingId": "Zoom 会議 ID (RTMS 用)",
+    "languageInsight": "インサイトの言語",
+    "proactivity": "AI の積極性",
+    "depthDefault": "既定の調査の深さ",
+    "kinds": "AI が自発的に出してよいもの",
+    "wakeWords": "呼びかけ語 (カンマ区切り)",
+    "promotion": "複数人が同じ箇所をこっそり質問したら、匿名の補足カードを全員に出す",
+    "experimentIntro": "ルーム全体の UX 条件です。各選択肢は仮説を表し、操作ログは比較のためサーバーに記録されます。",
+    "lock": "参加者の設定をこの条件に固定する",
+    "minutes": "議事録をダウンロード (Markdown)"
+  },
+  "languageInsight": {
+    "auto": "話者と同じ",
+    "en": "英語",
+    "ja": "日本語"
+  },
+  "proactivity": {
+    "off": "オフ (依頼時のみ)",
+    "low": "低 (重要なものだけ)",
+    "medium": "中",
+    "high": "高 (役立ちそうなものは何でも)"
+  },
+  "nameDialog": {
+    "title": "表示名を入力してください",
+    "text": "名前はカーソルと、あなたが依頼したカードに表示されます。こっそり質問した内容と結び付くことはありません。",
+    "placeholder": "あなたの名前",
+    "skip": "匿名のまま",
+    "save": "続ける"
+  },
+  "toolbar": {
+    "copyLink": "ルームのリンクをコピー",
+    "recording": "録音中",
+    "recordingTitle": "この会議は文字起こしされています",
+    "audio": "音声",
+    "private": "あなただけ"
+  },
+  "sync": {
+    "connecting": "接続中…",
+    "connected": "同期済み",
+    "disconnected": "オフライン"
+  },
+  "room": {
+    "missing": "このルームは存在しません。"
+  }
+}

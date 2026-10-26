@@ -28,5 +28,9 @@ export default tseslint.config(
       'vue/multi-word-component-names': 'off',
     },
   },
+  {
+    files: ['**/Worklets/**/*.js'],
+    languageOptions: { globals: { ...globals.audioWorklet } },
+  },
   prettierConfig,
 )

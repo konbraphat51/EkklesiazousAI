@@ -1,0 +1,33 @@
+{
+  "name": "@ekklesiazous/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared infinite-canvas client: live transcript, agent insights, private help and audio capture.",
+  "scripts": {
+    "dev": "vite",
+    "demo": "vite",
+    "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@ekklesiazous/shared": "workspace:*",
+    "@vue-flow/background": "^1.3.2",
+    "@vue-flow/controls": "^1.1.3",
+    "@vue-flow/core": "^1.48.2",
+    "@vue-flow/minimap": "^1.5.4",
+    "vue": "3.5.44",
+    "vue-i18n": "11.4.16",
+    "vue-router": "5.4.0",
+    "y-protocols": "^1.0.7",
+    "y-websocket": "3.1.0",
+    "yjs": "13.6.33"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "vite": "^8.3.5",
+    "vue-tsc": "^3.3.13"
+  }
+}
