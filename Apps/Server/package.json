@@ -1,0 +1,35 @@
+{
+  "name": "@ekklesiazous/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Meeting agent server: audio ingestion, speech recognition, research pipeline and Yjs sync hub.",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env Src/Main.ts",
+    "demo": "tsx watch --env-file-if-exists=../../.env Src/Main.ts --mock",
+    "start": "tsx --env-file-if-exists=../../.env Src/Main.ts",
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "@ekklesiazous/shared": "workspace:*",
+    "@fastify/cors": "^11.3.1",
+    "@fastify/static": "^10.1.7",
+    "fastify": "^5.12.7",
+    "lib0": "^0.2.119",
+    "nanoid": "^6.0.2",
+    "partial-json": "^0.1.7",
+    "ws": "^8.22.0",
+    "y-protocols": "^1.0.7",
+    "yjs": "13.6.33",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/ws": "^8.18.2",
+    "tsx": "^4.23.15",
+    "y-websocket": "3.1.0"
+  }
+}
