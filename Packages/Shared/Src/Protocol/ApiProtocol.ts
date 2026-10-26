@@ -46,7 +46,7 @@ export interface ResearchCommandResponse {
 /** `POST /api/rooms/:roomId/agent` request body: start or stop processing. */
 export interface AgentControlRequest {
   /** Requested action. */
-  action: 'start' | 'pause' | 'startDemo'
+  action: 'start' | 'pause' | 'startDemo' | 'stopDemo'
 }
 
 /** `GET /api/config` response body: which providers the server is configured with. */
