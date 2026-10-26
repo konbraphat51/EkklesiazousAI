@@ -20,6 +20,7 @@ import {
 import { renderSources } from './Prompts/PromptWriter'
 
 const LOOKBACK_MS = 20_000
+const LOOKBACK_SEGMENTS = 3
 const PROMOTION_PARTICIPANTS = 2
 const LOOKUP_DEADLINE_MS = 1200
 const STORE_LIMIT = 200
@@ -75,7 +76,7 @@ export class ClarificationService {
       ? this.context.findSegmentsRecent(request.recapMinutes * 60_000, now)
       : request.segmentIds.length > 0
         ? this.context.findSegments(request.segmentIds)
-        : this.context.findSegmentsRecent(LOOKBACK_MS, now)
+        : this.context.findSegmentsRecent(LOOKBACK_MS, now).slice(-LOOKBACK_SEGMENTS)
     const captions = isRecap
       ? ''
       : this.board
