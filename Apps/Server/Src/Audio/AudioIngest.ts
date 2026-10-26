@@ -4,6 +4,7 @@ import type { AgentLogger } from '../Agent/AgentToolkit'
 import { SpeakerDirectory } from '../Speech/SpeakerDirectory'
 import type { SpeechRecognizer } from '../Speech/SpeechRecognizer'
 import { TranscriptAssembler } from '../Speech/TranscriptAssembler'
+import { EchoGuard } from './EchoGuard'
 
 const IDLE_CHECK_MS = 400
 
@@ -65,6 +66,7 @@ export class AudioIngest {
     if (!meta.startedAt) board.patchMeta({ startedAt }, 'system')
 
     const speakers = new SpeakerDirectory(board)
+    const echoGuard = new EchoGuard(board)
     const isSingleSpeaker = options.speakerName !== null && options.speakerName.trim().length > 0
     const namedId = isSingleSpeaker ? speakers.resolveNamed(options.speakerName!) : null
     const assembler = new TranscriptAssembler(
@@ -75,7 +77,8 @@ export class AudioIngest {
       },
       {
         onCaption: (caption) => board.setCaption(options.sourceId, caption),
-        onSegment: (segment) => board.appendSegment(segment),
+        onSegment: (segment) =>
+          echoGuard.admit(segment, isSingleSpeaker, (admitted) => board.appendSegment(admitted)),
       },
     )
     const terms = [...board.listGlossary().map((entry) => entry.term), ...meta.wakeWords].slice(
