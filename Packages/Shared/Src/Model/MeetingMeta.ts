@@ -1,6 +1,7 @@
 // Room-wide settings and status of a meeting.
 import type { InsightKind } from './Insight'
 import type { LanguageInsightPreference } from './Language'
+import type { Proactivity, ResearchDepth } from './Research'
 import type { VariantId } from '../Presentation/VariantId'
 
 /**
@@ -36,4 +37,15 @@ export interface MeetingMeta {
   agentState: AgentState
   /** Insight kinds the agent may produce. */
   kindsEnabled: Record<InsightKind, boolean>
+  /** How eagerly the agent volunteers insights nobody asked for. */
+  proactivity: Proactivity
+  /** Research depth of proactive insights (explicit commands choose their own). */
+  researchDepthDefault: ResearchDepth
+  /** Phrases that address the agent by voice, e.g. "Hey Ekklesia" or 「エクレシア」. */
+  wakeWords: string[]
+  /**
+   * Whether a moment privately flagged by several participants is promoted to an anonymous public
+   * catch-up insight.
+   */
+  isClarificationPromotionEnabled: boolean
 }

@@ -1,5 +1,6 @@
 // Information the agent surfaces to participants (researched references, explainers, critiques...).
 import type { LanguageInsight } from './Language'
+import type { ResearchDepth } from './Research'
 
 /**
  * Kinds of insight, each mapped to a weakness of live spoken discussion.
@@ -8,7 +9,7 @@ import type { LanguageInsight } from './Language'
  * - `catchUp`: explainer of a term, paper or case some participants may not know.
  * - `factCheck`: verification of a factual claim made in the discussion.
  * - `critique`: devil's advocate — weaknesses, risks, overlooked alternatives.
- * - `answer`: reply to an explicit question addressed to the agent.
+ * - `answer`: result of an explicit research command (typed or spoken) from a participant.
  */
 export type InsightKind = 'priorArt' | 'catchUp' | 'factCheck' | 'critique' | 'answer'
 
@@ -85,6 +86,12 @@ export interface Insight {
   language: LanguageInsight
   /** Search query used for research. */
   query: string
+  /** Research intensity spent on this insight. */
+  depth: ResearchDepth
+  /** Short progress note while researching (e.g. "Reading 8 sources"); empty when idle. */
+  progressNote: string
+  /** Name of the participant who explicitly requested this; null for proactive insights. */
+  requesterName: string | null
   /** Why the agent surfaced this, shown for transparency. */
   reason: string
   /** Utterances that triggered the insight. */

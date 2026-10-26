@@ -57,6 +57,10 @@ export function createMeetingMetaDefault(now: number): MeetingMeta {
     variantDefault: 'timeline',
     agentState: 'idle',
     kindsEnabled,
+    proactivity: 'medium',
+    researchDepthDefault: 'quick',
+    wakeWords: ['ekklesia', 'エクレシア', 'hey ai', 'ねえai'],
+    isClarificationPromotionEnabled: true,
   }
 }
 
