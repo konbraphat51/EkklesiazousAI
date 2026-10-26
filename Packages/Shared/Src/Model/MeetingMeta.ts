@@ -8,13 +8,26 @@ import type { UxSettings } from '../Experiment/UxFeatures'
  * How meeting audio reaches the server.
  *
  * - `roomMicrophone`: one microphone in a physical room; speakers are separated by diarization.
- * - `zoomHostCapture`: the host captures Zoom's output audio (tab/system) plus their own microphone.
- * - `zoomPerParticipant`: every participant streams their own microphone from this app.
+ * - `onlineHostCapture`: the host captures the online meeting's output audio (Google Meet / Zoom web
+ *   tab, or system audio for desktop clients) plus their own microphone; speakers are diarized.
+ * - `onlinePerParticipant`: every participant streams their own microphone from this app.
  * - `zoomRtms`: Zoom Realtime Media Streams deliver per-participant audio to the server.
  * - `demo`: a scripted meeting is replayed (no microphone, no API keys required).
  */
 export type CaptureMode =
-  'roomMicrophone' | 'zoomHostCapture' | 'zoomPerParticipant' | 'zoomRtms' | 'demo'
+  'roomMicrophone' | 'onlineHostCapture' | 'onlinePerParticipant' | 'zoomRtms' | 'demo'
+
+/** Where the meeting takes place (used for capture instructions and integrations). */
+export type MeetingPlatform = 'inPerson' | 'zoom' | 'googleMeet' | 'teams' | 'other'
+
+/** Every meeting platform, in menu order. */
+export const MEETING_PLATFORMS: readonly MeetingPlatform[] = [
+  'inPerson',
+  'zoom',
+  'googleMeet',
+  'teams',
+  'other',
+]
 
 /** Agent run state. */
 export type AgentState = 'idle' | 'listening' | 'paused'
@@ -27,6 +40,8 @@ export interface MeetingMeta {
   createdAt: number
   /** Time the first audio arrived (epoch ms), used as the transcript origin. */
   startedAt: number | null
+  /** Where the meeting takes place. */
+  meetingPlatform: MeetingPlatform
   /** Capture mode selected for the meeting. */
   captureMode: CaptureMode
   /** Language preference for insights. */

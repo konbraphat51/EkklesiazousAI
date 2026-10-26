@@ -57,6 +57,7 @@ export function createMeetingMetaDefault(now: number): MeetingMeta {
     title: 'Untitled meeting',
     createdAt: now,
     startedAt: null,
+    meetingPlatform: 'inPerson',
     captureMode: 'roomMicrophone',
     languageInsight: 'auto',
     uxSettings: createUxSettingsDefault(),

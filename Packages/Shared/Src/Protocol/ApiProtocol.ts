@@ -1,5 +1,5 @@
 // Request and response bodies of the server's REST API.
-import type { CaptureMode } from '../Model/MeetingMeta'
+import type { CaptureMode, MeetingPlatform } from '../Model/MeetingMeta'
 import type { LanguageInsight } from '../Model/Language'
 import type { ResearchDepth } from '../Model/Research'
 import type { InsightLayer } from '../Model/Insight'
@@ -8,6 +8,8 @@ import type { InsightLayer } from '../Model/Insight'
 export interface RoomCreateRequest {
   /** Meeting title. */
   title: string
+  /** Where the meeting takes place. */
+  meetingPlatform: MeetingPlatform
   /** Initial capture mode. */
   captureMode: CaptureMode
 }
