@@ -1,0 +1,33 @@
+{
+  "name": "ekklesiazous-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Real-time meeting agent that researches what participants talk about and presents it on a shared infinite canvas.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./Apps/*\" dev",
+    "demo": "pnpm --parallel --filter \"./Apps/*\" demo",
+    "build": "pnpm -r build",
+    "start": "pnpm --filter @ekklesiazous/server start",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.12.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "5.0.5"
+  }
+}

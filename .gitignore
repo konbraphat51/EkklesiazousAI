@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+*.log
+/Data/
+Apps/Server/Data/
+.playwright-mcp/
+test-results/
+playwright-report/
+.vite/
