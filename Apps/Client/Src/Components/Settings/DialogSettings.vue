@@ -232,7 +232,7 @@ export default defineComponent({
     const captureModes = computed<CaptureMode[]>(() =>
       meta.value.meetingPlatform === 'inPerson'
         ? ['roomMicrophone', 'demo']
-        : ['onlineHostCapture', 'onlinePerParticipant', 'zoomRtms', 'demo'],
+        : ['onlineHostCapture', 'onlinePerParticipant', 'zoomRtms', 'meetingBot', 'demo'],
     )
 
     return {

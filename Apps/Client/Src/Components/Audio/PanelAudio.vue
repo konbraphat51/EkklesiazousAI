@@ -10,6 +10,22 @@
     <template v-else-if="captureMode === 'zoomRtms'">
       <p class="audio__note">{{ t('audio.rtmsNote') }}</p>
     </template>
+    <form v-else-if="captureMode === 'meetingBot'" class="audio__bot" @submit.prevent="inviteBot">
+      <label class="field">
+        <span>{{ t('audio.botUrl') }}</span>
+        <input
+          v-model="meetingUrl"
+          class="input"
+          type="url"
+          required
+          placeholder="https://meet.google.com/…"
+        />
+      </label>
+      <button type="submit" class="button button--primary" :disabled="isInviting">
+        🤖 {{ t('audio.botInvite') }}
+      </button>
+      <p v-if="botMessage" class="audio__note">{{ botMessage }}</p>
+    </form>
     <template v-else>
       <label class="field">
         <span>{{ t('audio.microphone') }}</span>
@@ -54,6 +70,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, type PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { api } from '../../Services/ApiClient'
 import { planCaptureChannels, type AudioCapture } from '../../Services/AudioCapture'
 import { identity } from '../../Services/ParticipantIdentity'
 import { useRoomSession } from '../../Services/RoomSession'
@@ -73,6 +90,20 @@ export default defineComponent({
     const devices = ref<MediaDeviceInfo[]>([])
     const microphoneDeviceId = ref('')
     const isConsentOpen = ref(false)
+    const meetingUrl = ref('')
+    const isInviting = ref(false)
+    const botMessage = ref('')
+    const inviteBot = async (): Promise<void> => {
+      isInviting.value = true
+      try {
+        await api.inviteBot(session.roomId, { meetingUrl: meetingUrl.value.trim() })
+        botMessage.value = t('audio.botInvited')
+      } catch (error) {
+        botMessage.value = `${t('audio.botFailed')} ${error instanceof Error ? error.message : ''}`
+      } finally {
+        isInviting.value = false
+      }
+    }
     const meta = session.state.meta
     const captureMode = computed(() => meta.value.captureMode)
     const isActive = computed(
@@ -124,6 +155,10 @@ export default defineComponent({
       helpText,
       requestStart,
       acceptConsent,
+      meetingUrl,
+      isInviting,
+      botMessage,
+      inviteBot,
       stop: () => props.capture.stop(),
     }
   },
@@ -159,6 +194,12 @@ export default defineComponent({
   background: #fff4e6;
   color: var(--color-warning);
   font-size: 12px;
+}
+
+.audio__bot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .audio__controls {

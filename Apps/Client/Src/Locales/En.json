@@ -36,14 +36,16 @@
     "onlineHostCapture": "Host captures the meeting audio",
     "onlinePerParticipant": "Everyone streams their own microphone",
     "zoomRtms": "Zoom RTMS (server-side, per participant)",
-    "demo": "Scripted demo"
+    "demo": "Scripted demo",
+    "meetingBot": "Meeting bot (per participant, experimental)"
   },
   "captureModeHint": {
     "roomMicrophone": "One laptop in the room records everyone; voices are separated automatically.",
     "onlineHostCapture": "One person shares the meeting tab (or system audio) plus their own microphone. No setup for others.",
     "onlinePerParticipant": "Each participant opens this room and streams their own microphone. Best speaker names; needs headphones.",
     "zoomRtms": "Zoom sends each participant's audio to the server. Requires a Zoom RTMS app (see docs).",
-    "demo": "No microphone: a scripted meeting is replayed."
+    "demo": "No microphone: a scripted meeting is replayed.",
+    "meetingBot": "A bot joins the Google Meet / Teams / Zoom meeting and sends each participant's voice with their name. The host must admit the bot."
   },
   "captureHelp": {
     "roomMicrophone": "Place the laptop in the middle of the table. Browser noise suppression is turned off so distant voices are kept.",
@@ -56,7 +58,8 @@
       "googleMeet": "Use Google Meet in a regular Chrome or Edge tab. Choose that Meet tab and tick “Also share tab audio”. Your own microphone is sent as a separate, named stream.",
       "teams": "Teams web: choose the Teams tab and tick “Share tab audio”. Teams desktop on Windows: choose “Entire screen” and tick “Share system audio”.",
       "other": "Choose the meeting tab (or entire screen) and enable audio sharing."
-    }
+    },
+    "meetingBot": "Paste the meeting link and invite the bot. Admit it when it asks to join; participants see it in the meeting."
   },
   "kind": {
     "priorArt": "Prior art",
@@ -257,7 +260,11 @@
       "meetingAudioCancelled": "Sharing was cancelled.",
       "serverRejected": "The server could not start speech recognition.",
       "connectionLost": "The connection was lost."
-    }
+    },
+    "botUrl": "Meeting link",
+    "botInvite": "Invite bot",
+    "botInvited": "The bot is joining. Admit it in the meeting.",
+    "botFailed": "The bot could not be sent."
   },
   "uxFeature": {
     "layout": {
@@ -277,7 +284,11 @@
     },
     "spotlight": {
       "name": "Shared spotlight",
-      "options": { "manual": "Participants", "auto": "Participants + agent", "off": "Off" },
+      "options": {
+        "manual": "Participants",
+        "auto": "Participants + agent",
+        "off": "Off"
+      },
       "hint": {
         "manual": "Anyone can promote a card to the centre for everyone.",
         "auto": "The agent also spotlights urgent insights.",
@@ -286,7 +297,10 @@
     },
     "disclosure": {
       "name": "Card detail",
-      "options": { "progressive": "Gist first", "full": "Everything" },
+      "options": {
+        "progressive": "Gist first",
+        "full": "Everything"
+      },
       "hint": {
         "progressive": "One plain sentence; click for detail (faster, lighter to read).",
         "full": "Detail is generated and shown up front."
@@ -309,7 +323,12 @@
     },
     "attentionCue": {
       "name": "New card cue",
-      "options": { "pulse": "Glow", "toast": "Toast", "autoPan": "Move view", "none": "None" },
+      "options": {
+        "pulse": "Glow",
+        "toast": "Toast",
+        "autoPan": "Move view",
+        "none": "None"
+      },
       "hint": {
         "pulse": "The new card glows briefly.",
         "toast": "A small notification links to the card.",
@@ -332,7 +351,10 @@
     },
     "cardAging": {
       "name": "Older cards",
-      "options": { "fade": "Fade", "keep": "Keep" },
+      "options": {
+        "fade": "Fade",
+        "keep": "Keep"
+      },
       "hint": {
         "fade": "Unpinned cards fade after 5 minutes to reduce clutter.",
         "keep": "Cards stay at full strength."
@@ -340,7 +362,10 @@
     },
     "confusionMarks": {
       "name": "Anonymous “?” marks",
-      "options": { "visible": "Visible", "hidden": "Hidden" },
+      "options": {
+        "visible": "Visible",
+        "hidden": "Hidden"
+      },
       "hint": {
         "visible": "Everyone sees how many people privately asked about a line (no names).",
         "hidden": "Only the agent knows."
@@ -348,7 +373,10 @@
     },
     "speakingBalance": {
       "name": "Speaking balance",
-      "options": { "hidden": "Hidden", "visible": "Visible" },
+      "options": {
+        "hidden": "Hidden",
+        "visible": "Visible"
+      },
       "hint": {
         "hidden": "No participation meter.",
         "visible": "An anonymous bar shows how evenly speaking time is shared."
@@ -356,7 +384,10 @@
     },
     "sourceDisplay": {
       "name": "Sources",
-      "options": { "inline": "Inline", "onDemand": "On demand" },
+      "options": {
+        "inline": "Inline",
+        "onDemand": "On demand"
+      },
       "hint": {
         "inline": "Expanded cards list their sources.",
         "onDemand": "Sources appear only when asked for."
@@ -364,7 +395,10 @@
     },
     "requesterIdentity": {
       "name": "Who asked",
-      "options": { "shown": "Shown", "hidden": "Hidden" },
+      "options": {
+        "shown": "Shown",
+        "hidden": "Hidden"
+      },
       "hint": {
         "shown": "Cards show who requested them.",
         "hidden": "Requests are anonymous."
@@ -373,7 +407,11 @@
   },
   "settings": {
     "title": "Settings",
-    "tab": { "me": "Me", "room": "Room", "experiment": "Experiment" },
+    "tab": {
+      "me": "Me",
+      "room": "Room",
+      "experiment": "Experiment"
+    },
     "name": "Display name",
     "locked": "The room locked these options for an experiment.",
     "zoomMeetingId": "Zoom meeting ID (for RTMS)",

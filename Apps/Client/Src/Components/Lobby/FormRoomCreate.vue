@@ -44,6 +44,8 @@ export default defineComponent({
   props: {
     /** Whether the server can receive Zoom RTMS audio. */
     isZoomRtmsEnabled: { type: Boolean, default: false },
+    /** Whether the server can send meeting bots. */
+    isMeetingBotEnabled: { type: Boolean, default: false },
     /** Disables the submit button while a request runs. */
     isBusy: { type: Boolean, default: false },
   },
@@ -61,7 +63,11 @@ export default defineComponent({
     const platform = ref<MeetingPlatform>('inPerson')
     const captureModes = computed<CaptureMode[]>(() => {
       if (platform.value === 'inPerson') return ['roomMicrophone']
-      const online: CaptureMode[] = ['onlineHostCapture', 'onlinePerParticipant']
+      const online: CaptureMode[] = [
+        'onlineHostCapture',
+        'onlinePerParticipant',
+        ...(props.isMeetingBotEnabled ? (['meetingBot'] as const) : []),
+      ]
       return platform.value === 'zoom' && props.isZoomRtmsEnabled ? ['zoomRtms', ...online] : online
     })
     const captureMode = ref<CaptureMode>('roomMicrophone')

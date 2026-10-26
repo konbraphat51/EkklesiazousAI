@@ -1,6 +1,8 @@
 // REST client of the server API, including NDJSON streaming for private results.
 import type {
   AgentControlRequest,
+  BotInviteRequest,
+  BotInviteResponse,
   Clarification,
   ClarificationAskRequest,
   ClarificationShareResponse,
@@ -136,6 +138,10 @@ export const api = {
   /** Sends logged interactions. */
   sendEvents: (roomId: string, events: InteractionEvent[]) =>
     post<{ ok: boolean }>(`/api/rooms/${roomId}/events`, { events }),
+
+  /** Sends a meeting bot (Recall.ai) to an online meeting. */
+  inviteBot: (roomId: string, request: BotInviteRequest) =>
+    post<BotInviteResponse>(`/api/rooms/${roomId}/bot`, request),
 
   /** URL of the Markdown minutes. */
   minutesUrl: (roomId: string) => `/api/rooms/${roomId}/minutes`,

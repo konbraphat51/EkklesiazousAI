@@ -17,6 +17,7 @@
         <h2>{{ t('lobby.createHeading') }}</h2>
         <FormRoomCreate
           :is-zoom-rtms-enabled="capabilities?.isZoomRtmsEnabled ?? false"
+          :is-meeting-bot-enabled="capabilities?.isMeetingBotEnabled ?? false"
           :is-busy="isBusy"
           @create="createRoom"
         />

@@ -36,14 +36,16 @@
     "onlineHostCapture": "ホストが会議音声を取り込む",
     "onlinePerParticipant": "各自が自分のマイクを送る",
     "zoomRtms": "Zoom RTMS (サーバー側・参加者別)",
-    "demo": "スクリプトデモ"
+    "demo": "スクリプトデモ",
+    "meetingBot": "会議ボット (参加者別・実験的)"
   },
   "captureModeHint": {
     "roomMicrophone": "部屋のノート PC 1 台で全員の声を録音し、話者は自動で区別されます。",
     "onlineHostCapture": "1 人が会議タブ (またはシステム音声) と自分のマイクを共有します。他の人は準備不要です。",
     "onlinePerParticipant": "参加者がそれぞれこのルームを開き、自分のマイクを送ります。話者名が正確になります (ヘッドホン推奨)。",
     "zoomRtms": "Zoom が参加者ごとの音声をサーバーへ送ります。Zoom RTMS アプリが必要です (ドキュメント参照)。",
-    "demo": "マイクなし: スクリプト会議を再生します。"
+    "demo": "マイクなし: スクリプト会議を再生します。",
+    "meetingBot": "ボットが Google Meet / Teams / Zoom の会議に参加し、参加者ごとの声を名前付きで送ります。ホストがボットの入室を承認してください。"
   },
   "captureHelp": {
     "roomMicrophone": "ノート PC をテーブル中央に置いてください。遠くの声を消さないよう、ブラウザのノイズ除去はオフにしています。",
@@ -56,7 +58,8 @@
       "googleMeet": "Google Meet は Chrome / Edge の通常のタブで開いてください。その Meet のタブを選び「タブの音声も共有する」にチェックします。あなた自身のマイクは名前付きの別ストリームで送られます。",
       "teams": "Teams ウェブ版: Teams のタブを選び「タブの音声も共有」にチェック。Windows の Teams デスクトップ版: 「画面全体」を選び「システム音声を共有」にチェック。",
       "other": "会議のタブ (または画面全体) を選び、音声の共有を有効にしてください。"
-    }
+    },
+    "meetingBot": "会議のリンクを貼り付けてボットを招待します。入室リクエストが来たら承認してください。参加者からはボットが見えます。"
   },
   "kind": {
     "priorArt": "既存事例",
@@ -257,7 +260,11 @@
       "meetingAudioCancelled": "共有がキャンセルされました。",
       "serverRejected": "サーバーで音声認識を開始できませんでした。",
       "connectionLost": "接続が切れました。"
-    }
+    },
+    "botUrl": "会議のリンク",
+    "botInvite": "ボットを招待",
+    "botInvited": "ボットが参加しようとしています。会議で承認してください。",
+    "botFailed": "ボットを送れませんでした。"
   },
   "uxFeature": {
     "layout": {
@@ -277,7 +284,11 @@
     },
     "spotlight": {
       "name": "共有スポットライト",
-      "options": { "manual": "参加者のみ", "auto": "参加者 + AI", "off": "なし" },
+      "options": {
+        "manual": "参加者のみ",
+        "auto": "参加者 + AI",
+        "off": "なし"
+      },
       "hint": {
         "manual": "誰でもカードを全員の画面中央に出せます。",
         "auto": "緊急のインサイトは AI もスポットライトします。",
@@ -286,7 +297,10 @@
     },
     "disclosure": {
       "name": "カードの詳しさ",
-      "options": { "progressive": "一言から", "full": "すべて表示" },
+      "options": {
+        "progressive": "一言から",
+        "full": "すべて表示"
+      },
       "hint": {
         "progressive": "平易な一文だけを表示し、クリックで詳細 (速く、読む負担が軽い)。",
         "full": "詳細を最初から生成して表示します。"
@@ -309,7 +323,12 @@
     },
     "attentionCue": {
       "name": "新着カードの知らせ方",
-      "options": { "pulse": "光る", "toast": "通知", "autoPan": "画面を移動", "none": "なし" },
+      "options": {
+        "pulse": "光る",
+        "toast": "通知",
+        "autoPan": "画面を移動",
+        "none": "なし"
+      },
       "hint": {
         "pulse": "新しいカードが少しの間光ります。",
         "toast": "小さな通知からカードへ移動できます。",
@@ -319,7 +338,11 @@
     },
     "critiqueFraming": {
       "name": "問いかけの形",
-      "options": { "question": "質問", "statement": "指摘", "persona": "関係者の声" },
+      "options": {
+        "question": "質問",
+        "statement": "指摘",
+        "persona": "関係者の声"
+      },
       "hint": {
         "question": "ソクラテス式の質問として投げかけます (角が立ちにくい)。",
         "statement": "簡潔な懸念として述べます。",
@@ -328,7 +351,10 @@
     },
     "cardAging": {
       "name": "古いカード",
-      "options": { "fade": "薄くする", "keep": "そのまま" },
+      "options": {
+        "fade": "薄くする",
+        "keep": "そのまま"
+      },
       "hint": {
         "fade": "固定していないカードは 5 分後に薄くなります。",
         "keep": "常に同じ濃さで表示します。"
@@ -336,7 +362,10 @@
     },
     "confusionMarks": {
       "name": "匿名の「?」印",
-      "options": { "visible": "表示", "hidden": "非表示" },
+      "options": {
+        "visible": "表示",
+        "hidden": "非表示"
+      },
       "hint": {
         "visible": "各発言にこっそり質問した人数を全員に表示します (名前なし)。",
         "hidden": "AI だけが把握します。"
@@ -344,7 +373,10 @@
     },
     "speakingBalance": {
       "name": "発言バランス",
-      "options": { "hidden": "非表示", "visible": "表示" },
+      "options": {
+        "hidden": "非表示",
+        "visible": "表示"
+      },
       "hint": {
         "hidden": "発言量メーターを表示しません。",
         "visible": "発言時間の偏りを名前なしの棒で表示します。"
@@ -352,7 +384,10 @@
     },
     "sourceDisplay": {
       "name": "出典",
-      "options": { "inline": "常に表示", "onDemand": "必要なときだけ" },
+      "options": {
+        "inline": "常に表示",
+        "onDemand": "必要なときだけ"
+      },
       "hint": {
         "inline": "詳細を開くと出典も表示します。",
         "onDemand": "求められたときだけ出典を表示します。"
@@ -360,7 +395,10 @@
     },
     "requesterIdentity": {
       "name": "依頼者の表示",
-      "options": { "shown": "表示", "hidden": "非表示" },
+      "options": {
+        "shown": "表示",
+        "hidden": "非表示"
+      },
       "hint": {
         "shown": "カードに依頼者の名前を表示します。",
         "hidden": "依頼は匿名になります。"
@@ -369,7 +407,11 @@
   },
   "settings": {
     "title": "設定",
-    "tab": { "me": "自分", "room": "ルーム", "experiment": "実験" },
+    "tab": {
+      "me": "自分",
+      "room": "ルーム",
+      "experiment": "実験"
+    },
     "name": "表示名",
     "locked": "実験のため、ルームがこれらの設定を固定しています。",
     "zoomMeetingId": "Zoom 会議 ID (RTMS 用)",
