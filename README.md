@@ -1,2 +1,2 @@
 # EkklesiazousAI
-Ἐκκλησιάζουσαι = Hidden one sneeks into ἐκκλησία (ekklesia; call-out assembly)
+Ἐκκλησιάζουσαι (Ekklesiazousai) = Hidden one sneeks into ἐκκλησία (ekklesia; call-out assembly)
