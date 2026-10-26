@@ -457,5 +457,13 @@
   },
   "room": {
     "missing": "This room does not exist."
+  },
+  "meetAddon": {
+    "intro": "Use EkklesiazousAI in this call: create a room, then show the shared canvas to everyone on the main stage.",
+    "create": "Create a room for this call",
+    "showToEveryone": "Show the canvas to everyone",
+    "outsideMeet": "Open this page as a Google Meet add-on (and set VITE_MEET_CLOUD_PROJECT_NUMBER).",
+    "loading": "Loading the shared canvas…",
+    "noRoom": "No room was shared with this activity."
   }
 }

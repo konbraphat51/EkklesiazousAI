@@ -457,5 +457,13 @@
   },
   "room": {
     "missing": "このルームは存在しません。"
+  },
+  "meetAddon": {
+    "intro": "この通話で EkklesiazousAI を使います。ルームを作成し、共有キャンバスをメインステージで全員に表示してください。",
+    "create": "この通話用のルームを作成",
+    "showToEveryone": "キャンバスを全員に表示",
+    "outsideMeet": "このページは Google Meet アドオンとして開いてください (VITE_MEET_CLOUD_PROJECT_NUMBER の設定も必要です)。",
+    "loading": "共有キャンバスを読み込んでいます…",
+    "noRoom": "このアクティビティにはルームが共有されていません。"
   }
 }

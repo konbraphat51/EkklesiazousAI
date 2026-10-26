@@ -7,6 +7,8 @@ const serverUrl = process.env.EKKLESIAZOUS_SERVER ?? 'http://localhost:8787'
 export default defineConfig({
   plugins: [vue()],
   publicDir: 'Public',
+  // VITE_* variables are read from the repository-wide .env
+  envDir: '../..',
   server: {
     port: 5173,
     proxy: {
