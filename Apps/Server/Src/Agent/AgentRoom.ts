@@ -486,7 +486,8 @@ export class AgentRoom {
       origin,
       pattern: proposal.pattern,
       language,
-      topicId: null,
+      // explicit and anonymous cards join the topic currently being discussed
+      topicId: origin === 'proactive' ? null : this.findTopicCurrent(),
       issueNodeId: null,
       segments: this.context.findSegments(proposal.segmentIds),
       interimText: '',
@@ -684,6 +685,14 @@ export class AgentRoom {
     const id = nanoid(8)
     this.board.upsertTopic({ id, label: topic.label.trim(), createdAt: now, lastActiveAt: now })
     return id
+  }
+
+  private findTopicCurrent(): string | null {
+    const topics = this.board.listTopics()
+    if (topics.length === 0) return null
+    return topics.reduce((latest, topic) =>
+      topic.lastActiveAt > latest.lastActiveAt ? topic : latest,
+    ).id
   }
 
   private speakerLabelOf(speakerId: string | undefined): string | null {
