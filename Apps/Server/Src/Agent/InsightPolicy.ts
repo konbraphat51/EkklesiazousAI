@@ -11,7 +11,15 @@ import { computeSimilarity, normalizeText } from './TextSimilarity'
 const DUPLICATE_SIMILARITY = 0.5
 const DUPLICATE_WINDOW_MS = 20 * 60_000
 const RATE_WINDOW_MS = 60_000
-const RATE_LIMITS: Record<Proactivity, number> = { off: 0, low: 2, medium: 3, high: 5 }
+/** Default per-minute caps on proactive insights, by proactivity. */
+export const RATE_LIMITS_DEFAULT: Record<Proactivity, number> = {
+  off: 0,
+  low: 2,
+  medium: 3,
+  high: 5,
+}
+// important items are never dropped by the rate cap; it only thins out nice-to-know cards
+const RATE_EXEMPT_URGENCY = 0.8
 
 /** The parts of a proposal the policy looks at. */
 export interface InsightCandidate {
@@ -41,10 +49,12 @@ export class InsightPolicy {
 
   /**
    * @param board - Board holding settings and existing insights.
+   * @param rateLimits - Per-minute caps on proactive insights.
    * @param now - Clock (injectable for tests).
    */
   constructor(
     private readonly board: DocumentBoard,
+    private readonly rateLimits: Record<Proactivity, number> = RATE_LIMITS_DEFAULT,
     private readonly now: () => number = Date.now,
   ) {}
 
@@ -63,7 +73,8 @@ export class InsightPolicy {
       return { isAdmitted: false, reason: 'belowThreshold' }
     }
     if (this.isDuplicate(candidate)) return { isAdmitted: false, reason: 'duplicate' }
-    if (isProactive && this.countRecentReleases() >= RATE_LIMITS[meta.proactivity]) {
+    const isCapped = isProactive && candidate.urgency < RATE_EXEMPT_URGENCY
+    if (isCapped && this.countRecentReleases() >= this.rateLimits[meta.proactivity]) {
       return { isAdmitted: false, reason: 'rateLimited' }
     }
     this.candidatesPending.push(candidate)

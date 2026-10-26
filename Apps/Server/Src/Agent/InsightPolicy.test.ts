@@ -60,18 +60,23 @@ describe('InsightPolicy', () => {
     ).toMatchObject({ reason: 'duplicate' })
   })
 
-  it('rate-limits proactive insights per minute', () => {
+  it('rate-limits nice-to-know proactive insights per minute', () => {
     const board = new DocumentBoard()
-    board.patchMeta({ proactivity: 'low' })
+    board.patchMeta({ proactivity: 'medium' })
     const clock = { now: 0 }
-    const policy = new InsightPolicy(board, () => clock.now)
-    expect(policy.admit(candidate({ title: 'a', query: 'aaa' })).isAdmitted).toBe(true)
-    expect(policy.admit(candidate({ title: 'b', query: 'bbb' })).isAdmitted).toBe(true)
-    expect(policy.admit(candidate({ title: 'c', query: 'ccc' }))).toMatchObject({
-      reason: 'rateLimited',
-    })
+    const policy = new InsightPolicy(board, undefined, () => clock.now)
+    const minor = (title: string): InsightCandidate =>
+      candidate({ title, query: title.repeat(3), urgency: 0.6 })
+    expect(policy.admit(minor('a')).isAdmitted).toBe(true)
+    expect(policy.admit(minor('b')).isAdmitted).toBe(true)
+    expect(policy.admit(minor('c')).isAdmitted).toBe(true)
+    expect(policy.admit(minor('d'))).toMatchObject({ reason: 'rateLimited' })
+    // urgent items bypass the cap
+    expect(policy.admit(candidate({ title: 'e', query: 'eee', urgency: 0.9 })).isAdmitted).toBe(
+      true,
+    )
     clock.now = 61_000
-    expect(policy.admit(candidate({ title: 'd', query: 'ddd' })).isAdmitted).toBe(true)
+    expect(policy.admit(minor('f')).isAdmitted).toBe(true)
   })
 })
 
