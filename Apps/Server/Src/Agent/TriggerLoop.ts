@@ -128,6 +128,7 @@ export class TriggerLoop {
         task: 'trigger',
         hints: {
           segmentTexts: segments.map((segment) => segment.text).join('\n'),
+          segmentIds: segments.map((segment) => segment.id).join('\n'),
           interimText: caption?.text ?? '',
         },
         prompt: {

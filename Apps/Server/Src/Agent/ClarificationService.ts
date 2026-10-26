@@ -105,7 +105,11 @@ export class ClarificationService {
     try {
       const output = await this.models.writer.generate<ClarificationOutput>({
         task: isRecap ? 'recap' : 'clarification',
-        hints: { quote: quote.slice(0, 200), selectedText: request.selectedText ?? '' },
+        hints: {
+          quote: quote.slice(0, 200),
+          selectedText: request.selectedText ?? '',
+          language: request.language,
+        },
         prompt: {
           system: PROMPT_CLARIFICATION_SYSTEM,
           contextBlocks: [this.context.renderRecent(isRecap ? 8 : 16), renderSources(hits)],

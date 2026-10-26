@@ -12,6 +12,7 @@ import {
   type InsightOrigin,
   type InteractionEvent,
   type LanguageInsight,
+  type Proactivity,
   type ResearchDepth,
   type ResearchCommandRequest,
   type TranscriptSegment,
@@ -27,7 +28,7 @@ import { DissentService } from './DissentService'
 import { EvidenceCollector } from './EvidenceCollector'
 import type { EventLog } from './EventLog'
 import { InsightHandle } from './InsightHandle'
-import { InsightPolicy } from './InsightPolicy'
+import { InsightPolicy, RATE_LIMITS_DEFAULT } from './InsightPolicy'
 import { InsightResearcher } from './InsightResearcher'
 import { IssueMapper, type CritiqueTarget } from './IssueMapper'
 import { MeetingContext } from './MeetingContext'
@@ -60,6 +61,12 @@ interface InsightSpec {
   detailPreset: { summary: string; bullets: string[] } | null
 }
 
+/** Tuning of an agent room. */
+export interface AgentRoomOptions {
+  /** Per-minute caps on proactive insights, by proactivity. */
+  rateLimits: Record<Proactivity, number>
+}
+
 /** Result of a dissent submission. */
 export type DissentResult = 'posted' | 'rejected' | 'rateLimited'
 
@@ -86,14 +93,16 @@ export class AgentRoom {
    * @param board - The room's shared board.
    * @param toolkit - Models, search providers and logger.
    * @param eventLog - Research event log of the room.
+   * @param options - Tuning.
    */
   constructor(
     private readonly board: DocumentBoard,
     private readonly toolkit: AgentToolkit,
     private readonly eventLog: EventLog,
+    options: AgentRoomOptions = { rateLimits: RATE_LIMITS_DEFAULT },
   ) {
     this.context = new MeetingContext(board)
-    this.policy = new InsightPolicy(board)
+    this.policy = new InsightPolicy(board, options.rateLimits)
     this.evidence = new EvidenceCollector(toolkit.search)
     this.researcher = new InsightResearcher(
       board,
