@@ -22,8 +22,25 @@ export const INSIGHT_KINDS: readonly InsightKind[] = [
   'answer',
 ]
 
-/** Lifecycle of an insight; the card is shown from `researching` onward. */
+/** Lifecycle of an insight's gist; the card is shown from `researching` onward. */
 export type InsightStatus = 'researching' | 'writing' | 'ready' | 'failed' | 'dismissed'
+
+/**
+ * Layers of progressive disclosure: the title and gist are always produced, deeper layers only on
+ * demand (a participant expands the card) or when the research depth asks for them up front.
+ */
+export type InsightLayer = 'detail' | 'deep'
+
+/** Generation state of an on-demand layer. */
+export type InsightLayerStatus = 'none' | 'running' | 'ready' | 'failed'
+
+/** A titled group of points in the deep layer. */
+export interface InsightSection {
+  /** Section heading. */
+  heading: string
+  /** Points of the section. */
+  points: string[]
+}
 
 /** Verdict of a fact check. */
 export type InsightVerdict = 'supported' | 'disputed' | 'unclear'
@@ -50,9 +67,9 @@ export interface InsightTimings {
   utteranceAt: number
   /** When the trigger detector decided to create the insight. */
   triggeredAt: number
-  /** When the first written content (summary) became visible. */
+  /** When the first characters of the gist became visible. */
   firstContentAt: number | null
-  /** When the insight became `ready`. */
+  /** When the gist was complete. */
   readyAt: number | null
   /** Whether the trigger fired on interim (not yet final) speech. */
   isSpeculative: boolean
@@ -70,11 +87,19 @@ export interface Insight {
   topicId: string | null
   /** Short headline (shown immediately, before research finishes). */
   title: string
-  /** One or two sentence summary. */
+  /** One plain sentence: the default, glanceable presentation. */
+  gist: string
+  /** Generation state of the detail layer. */
+  detailStatus: InsightLayerStatus
+  /** Detail layer: two or three sentence summary. */
   summary: string
-  /** Key points. */
+  /** Detail layer: key points. */
   bullets: string[]
-  /** Supporting references. */
+  /** Generation state of the deep layer. */
+  deepStatus: InsightLayerStatus
+  /** Deep layer: structured findings. */
+  sections: InsightSection[]
+  /** Supporting references (accumulated across layers). */
   sources: InsightSource[]
   /** Fact-check verdict; null for other kinds. */
   verdict: InsightVerdict | null

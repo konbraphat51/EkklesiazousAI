@@ -2,6 +2,7 @@
 import type { CaptureMode } from '../Model/MeetingMeta'
 import type { LanguageInsight } from '../Model/Language'
 import type { ResearchDepth } from '../Model/Research'
+import type { InsightLayer } from '../Model/Insight'
 
 /** `POST /api/rooms` request body. */
 export interface RoomCreateRequest {
@@ -83,4 +84,15 @@ export interface ClarificationAskRequest {
 export interface ClarificationShareResponse {
   /** Identifier of the public catch-up insight created on the board. */
   insightId: string
+}
+
+/**
+ * `POST /api/rooms/:roomId/insights/:insightId/layers` request body: generate a deeper layer of an
+ * insight on demand. Idempotent; the result is written to the shared board.
+ */
+export interface InsightLayerRequest {
+  /** Layer to generate. */
+  layer: InsightLayer
+  /** True when triggered by hover intent rather than an explicit click. */
+  isPrefetch: boolean
 }
