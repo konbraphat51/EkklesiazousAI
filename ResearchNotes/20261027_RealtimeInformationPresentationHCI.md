@@ -472,6 +472,7 @@
     - 誰が昇格させたかの名前と、閲覧者アイコンを小さく出す（アウェアネス）。
   - **非対称の検出（S2）**: 参加者が「◯◯って何？」と尋ねたり、言いよどんだりしたとき、または事前プロファイル（任意）から既知の度合いの差が推定されたとき、その人の端末に Context カードを出す。
     - 同じ用語で 2 人以上が引っかかった場合だけ、スポットライトへの昇格を提案する（「3 人に関係ありそう: 場に出しますか？」）。
+    - 本人が明示的に合図する入口（「？」ボタン、ホットキー）は V7 で定義する。V5 は、その昇格先（スポットライト）として組み合わせられる。
   - **解除と収納**: 話題が変わるか 60 秒の無操作で、スポットライトのカードはキャンバス上の定位置（V2 の島か V3 のノード）へ縮小しながら移る。軌跡は残光で示し、どこに行ったかがわかるようにする [R45]。
   - **既知情報の抑制**: 一度スポットライトに出た用語は「共有済み」として記録し、その用語の Context カードは以後出さない（P5）。
 - **想定される弱点**
@@ -601,6 +602,9 @@
 - 製品情報は 2026 年 10 月時点の公開資料と報道に基づく。機能は頻繁に変わる。
 - 「話題が続いている間に届ける（数十秒〜数分の関連性の窓）」は、文献から導いた**設計仮説**であり、直接測った研究は見つかっていない（`未確認`）。
 - Stasser & Titus 1985 の巻号・ページは二次資料で確認した。DOI は `未確認`。Nemeth et al. 2001 は DOI のみ確認し、巻号・ページは `未確認`。
+- Caldwell 2007 [R63] が匿名性の効果を論じているかどうかは確認できていない（二次資料の帰属）。NN/g の段階的開示の記事 [R69] は二次引用で確認した。
+- Diehl & Stroebe 1987 [R65] は、評価懸念を集団の生産性低下の主因とは**していない**（主因は production blocking）。「わからない」と言いにくい根拠としては、援助要請の研究 [R64] のほうが直接的。
+- V7 の「直近約 20 秒」「±20 秒で 2 人以上」「4 人以下では閾値 2」は設計上の初期値で、文献で直接は裏付けられていない（`未確認`）。
 
 ---
 
@@ -664,6 +668,20 @@
 - [R54] Kim, S. S. Y., Liao, Q. V., Vorvoreanu, M., Ballard, S., & Vaughan, J. W. (2024). "I'm Not Sure, But...": Examining the Impact of Large Language Models' Uncertainty Expression on User Reliance and Trust. *FAccT '24*. https://arxiv.org/abs/2405.00623
 - [R55] Passi, S., & Vorvoreanu, M. (2022). Overreliance on AI: Literature Review. Microsoft Technical Report MSR-TR-2022-12. https://www.microsoft.com/en-us/research/publication/overreliance-on-ai-literature-review/
 - [R56] Asthana, S., Hilleli, S., He, P., & Halfaker, A. (2023/2025). Summaries, Highlights, and Action Items: Design, Implementation and Evaluation of an LLM-powered Meeting Recap System. https://arxiv.org/abs/2307.15793
+- [R57] McCarthy, J. F., & boyd, d. m. (2005). Digital Backchannels in Shared Physical Spaces: Experiences at an Academic Conference. *CHI EA '05*, 1641–1644. https://doi.org/10.1145/1056808.1056986
+- [R58] Harry, D., Gutierrez, D., Green, J., & Donath, J. (2008). backchan.nl: Integrating Backchannels with Physical Space. *CHI EA '08*, 2751–2756. https://doi.org/10.1145/1358628.1358756
+- [R59] Du, H., Rosson, M. B., & Carroll, J. M. (2012). Augmenting Classroom Participation through Public Digital Backchannels（ClassCommons）. *GROUP '12*, 155–164. https://doi.org/10.1145/2389176.2389201
+- [R60] Rivera-Pelayo, V., Munk, J., Zacharias, V., & Braun, S. (2013). Live Interest Meter: Learning from Quantified Feedback in Mass Lectures. *LAK '13*. https://doi.org/10.1145/2460296.2460302
+- [R61] Teevan, J., Liebling, D., Paradiso, A., Garcia Jurado Suarez, C., von Veh, C., & Gehring, D. (2012). Displaying Mobile Feedback during a Presentation. *MobileHCI '12*, 379–382. https://doi.org/10.1145/2371574.2371633
+- [R62] Glassman, E. L., Kim, J., Monroy-Hernández, A., & Morris, M. R. (2015). Mudslide: A Spatially Anchored Census of Student Confusion for Online Lecture Videos. *CHI '15*, 1555–1564. https://arxiv.org/abs/1507.01314
+- [R63] Caldwell, J. E. (2007). Clickers in the Large Classroom: Current Research and Best-Practice Tips. *CBE—Life Sciences Education*, 6(1), 9–20.
+- [R64] Karabenick, S. A. (2003). Seeking Help in Large College Classes: A Person-Centered Approach. *Contemporary Educational Psychology*, 28(1), 37–58. https://doi.org/10.1016/S0361-476X(02)00012-7
+- [R65] Diehl, M., & Stroebe, W. (1987). Productivity Loss in Brainstorming Groups: Toward the Solution of a Riddle. *Journal of Personality and Social Psychology*, 53(3), 497–509.
+- [R66] Jessup, L. M., Connolly, T., & Galegher, J. (1990). The Effects of Anonymity on GDSS Group Process with an Idea-Generating Task. *MIS Quarterly*, 14(3), 313–321. https://aisel.aisnet.org/misq/vol14/iss3/4/
+- [R67] Stefik, M., Bobrow, D. G., Foster, G., Lanning, S., & Tatar, D. (1987). WYSIWIS Revised: Early Experiences with Multiuser Interfaces. *ACM TOIS*, 5(2), 147–167. https://doi.org/10.1145/27636.28056
+- [R68] Shneiderman, B. (1996). The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations. *IEEE Symposium on Visual Languages*. https://doi.org/10.1109/VL.1996.545307
+- [R69] Nielsen, J. (2006). Progressive Disclosure. Nielsen Norman Group. https://www.nngroup.com/articles/progressive-disclosure/
+- [R70] Pirolli, P., & Card, S. (1999). Information Foraging. *Psychological Review*, 106(4), 643–675. https://doi.org/10.1037/0033-295X.106.4.643
 
 ### プロダクト情報源
 
@@ -677,3 +695,4 @@
 - [P8] Cluely. https://en.wikipedia.org/wiki/Cluely ／ https://techcrunch.com/2025/04/29/startups-launch-products-to-catch-people-using-ai-cheating-app-cluely/
 - [P9] Miro AI Sidekicks. https://miro.com/ai/sidekicks ／ https://www.computerworld.com/article/3476030/miro-launches-intelligent-canvas.html
 - [P10] tldraw AI. https://tldraw.dev/docs/ai ／ https://tldraw.dev/use-cases/ai-enabled-canvas ／ https://ai.engineer/talks/agents-on-the-canvas-in-tldraw
+- [P11] Microsoft Teams Q&A（匿名投稿・upvote）. https://support.microsoft.com/office/q-a-in-microsoft-teams-meetings-f3c84c72-57c3-4b6d-aea5-67b11face787
