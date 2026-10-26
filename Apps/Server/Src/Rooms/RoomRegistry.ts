@@ -1,7 +1,12 @@
 // Creates, loads, keeps and persists the meeting rooms served by this process.
 import * as Y from 'yjs'
 import { customAlphabet } from 'nanoid'
-import { DocumentBoard, createMeetingMetaDefault, type CaptureMode } from '@ekklesiazous/shared'
+import {
+  DocumentBoard,
+  createMeetingMetaDefault,
+  type CaptureMode,
+  type MeetingPlatform,
+} from '@ekklesiazous/shared'
 import type { RoomStore } from './RoomStore'
 
 const generateRoomId = customAlphabet('23456789abcdefghijkmnpqrstuvwxyz', 10)
@@ -19,12 +24,12 @@ export interface RoomMeeting {
 }
 
 /** Builds the runtime of a room around its board. */
-export type RoomFactory = (roomId: string, board: DocumentBoard) => RoomMeeting
+export type RoomFactory<Room extends RoomMeeting> = (roomId: string, board: DocumentBoard) => Room
 
 /** Registry of live rooms with lazy loading and debounced persistence. */
-export class RoomRegistry {
-  private readonly rooms = new Map<string, RoomMeeting>()
-  private readonly opening = new Map<string, Promise<RoomMeeting | null>>()
+export class RoomRegistry<Room extends RoomMeeting = RoomMeeting> {
+  private readonly rooms = new Map<string, Room>()
+  private readonly opening = new Map<string, Promise<Room | null>>()
 
   /**
    * @param store - Snapshot storage.
@@ -32,7 +37,7 @@ export class RoomRegistry {
    */
   constructor(
     private readonly store: RoomStore,
-    private readonly createRoom: RoomFactory,
+    private readonly createRoom: RoomFactory<Room>,
   ) {}
 
   /**
@@ -51,10 +56,17 @@ export class RoomRegistry {
    * @param captureMode - Initial capture mode.
    * @returns The live room.
    */
-  async create(title: string, captureMode: CaptureMode): Promise<RoomMeeting> {
+  async create(
+    title: string,
+    captureMode: CaptureMode,
+    meetingPlatform: MeetingPlatform,
+  ): Promise<Room> {
     const roomId = generateRoomId()
     const board = new DocumentBoard(new Y.Doc())
-    board.patchMeta({ ...createMeetingMetaDefault(Date.now()), title, captureMode }, 'system')
+    board.patchMeta(
+      { ...createMeetingMetaDefault(Date.now()), title, captureMode, meetingPlatform },
+      'system',
+    )
     const room = this.attach(roomId, board)
     await this.store.save(roomId, Y.encodeStateAsUpdate(board.doc))
     return room
@@ -66,7 +78,7 @@ export class RoomRegistry {
    * @param roomId - Room identifier.
    * @returns The room, or null if it does not exist.
    */
-  async open(roomId: string): Promise<RoomMeeting | null> {
+  async open(roomId: string): Promise<Room | null> {
     if (!RoomRegistry.isRoomIdValid(roomId)) return null
     const live = this.rooms.get(roomId)
     if (live) return live
@@ -85,11 +97,16 @@ export class RoomRegistry {
    *
    * @param roomId - Room identifier.
    */
-  get(roomId: string): RoomMeeting | undefined {
+  get(roomId: string): Room | undefined {
     return this.rooms.get(roomId)
   }
 
-  private async load(roomId: string): Promise<RoomMeeting | null> {
+  /** Lists rooms that are currently live in this process. */
+  listLive(): Room[] {
+    return Array.from(this.rooms.values())
+  }
+
+  private async load(roomId: string): Promise<Room | null> {
     const state = await this.store.load(roomId)
     if (!state) return null
     const doc = new Y.Doc()
@@ -97,7 +114,7 @@ export class RoomRegistry {
     return this.attach(roomId, new DocumentBoard(doc))
   }
 
-  private attach(roomId: string, board: DocumentBoard): RoomMeeting {
+  private attach(roomId: string, board: DocumentBoard): Room {
     const room = this.createRoom(roomId, board)
     this.rooms.set(roomId, room)
 
