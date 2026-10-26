@@ -412,6 +412,10 @@ export default defineComponent({
 }
 
 .card__domain {
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   padding: 0 6px;
   border-radius: 4px;
   background: var(--color-surface-muted);

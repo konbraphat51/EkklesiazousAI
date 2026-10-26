@@ -50,7 +50,7 @@
         ＋ {{ t('canvas.addNote') }}
       </button>
     </div>
-    <p v-if="layoutResult.nodes.length <= 1" class="canvas__empty">
+    <p v-if="isEmpty" class="canvas__empty">
       {{ t(`canvas.empty.${layoutId}`) }}
     </p>
   </div>
@@ -306,6 +306,11 @@ export default defineComponent({
       peers,
       layoutId,
       layoutResult,
+      isEmpty: computed(() =>
+        layoutResult.value.isPeripheral
+          ? state.insights.value.length === 0
+          : layoutResult.value.nodes.length <= 1,
+      ),
       flowNodes,
       flowEdges,
       isFollowing,

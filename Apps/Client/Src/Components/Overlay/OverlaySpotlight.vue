@@ -52,6 +52,8 @@ export default defineComponent({
 
 .spotlight__frame {
   width: min(560px, 90%);
+  max-height: 82%;
+  overflow-y: auto;
   padding: 14px;
   border-radius: var(--radius-large);
   background: var(--color-surface);

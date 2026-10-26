@@ -102,8 +102,8 @@ export default defineComponent({
 
 .periphery__tray--left,
 .periphery__tray--right {
-  top: 8px;
-  bottom: 190px;
+  top: 64px;
+  bottom: 330px;
   width: 270px;
 }
 
@@ -116,10 +116,12 @@ export default defineComponent({
 }
 
 .periphery__tray--bottom {
-  left: 290px;
-  right: 290px;
-  bottom: 8px;
-  max-height: 180px;
+  left: 8px;
+  right: 8px;
+  bottom: 118px;
+  max-height: 210px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .periphery__row {
@@ -133,7 +135,7 @@ export default defineComponent({
 
 .periphery__centre {
   position: absolute;
-  top: 24px;
+  top: 64px;
   left: 50%;
   width: 420px;
   transform: translateX(-50%);
